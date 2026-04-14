@@ -14,592 +14,224 @@
         .measurement-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 24px; margin: 24px 0; }
         .measure-item { text-align: center; padding: 16px; background: #faf8f5; border-radius: 20px; }
         .measure-item label { display: block; font-size: 0.8rem; color: #999; margin-bottom: 8px; }
-        .measure-item input { width: 100%; padding: 12px; border: 1px solid #e0d6c8; border-radius: 40px; font-size: 1rem; text-align: center; font-family: 'Inter', sans-serif; }
-        .btn-save { background: #1a1a2e; color: white; padding: 12px 28px; border: none; border-radius: 40px; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 500; display: inline-flex; align-items: center; gap: 10px; }
-        .btn-outline { background: transparent; border: 1.5px solid #1a1a2e; color: #1a1a2e; padding: 10px 24px; border-radius: 40px; cursor: pointer; font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; gap: 8px; }
-        select, .cycle-field input { width: 100%; max-width: 280px; padding: 12px; border: 1px solid #e0d6c8; border-radius: 40px; font-family: 'Inter', sans-serif; margin: 8px 0; }
-        .cycle-field { margin-bottom: 20px; }
-        .cycle-field label { display: block; font-weight: 500; margin-bottom: 8px; }
-        .cycle-field small { display: block; font-size: 0.7rem; color: #999; margin-top: 5px; }
-        .cycle-result, .meal-result { margin-top: 24px; padding: 24px; border-radius: 24px; background: #f9f6f2; }
-        .meal-result { background: #e8f0e8; }
-        .phase-badge { display: inline-block; padding: 6px 16px; border-radius: 40px; font-size: 0.8rem; font-weight: 500; margin-bottom: 16px; }
-        .phase-menstrual { background: #b56576; color: white; }
-        .phase-follicular { background: #7b9e6e; color: white; }
-        .phase-ovulatory { background: #e8a87c; color: white; }
-        .phase-luteal { background: #d4a5a5; color: white; }
-        .meal-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
-        .meal-table th, .meal-table td { padding: 12px 8px; text-align: left; border-bottom: 1px solid #e0d6c8; vertical-align: top; }
-        .meal-table th { background: #faf8f5; font-weight: 600; }
-        .calorie-note { margin-top: 16px; font-size: 0.8rem; color: #666; text-align: center; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
-        th { background: #faf8f5; font-weight: 600; }
+        .measure-item input { width: 100%; padding: 12px; border: 1px solid #e0d6c8; border-radius: 40px; font-size: 1rem; text-align: center; }
+        .btn-save { background: #1a1a2e; color: white; padding: 12px 28px; border: none; border-radius: 40px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; }
+        .btn-outline { background: transparent; border: 1.5px solid #1a1a2e; color: #1a1a2e; padding: 10px 24px; border-radius: 40px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+        select, .cycle-field input, .ferritin-field input { width: 100%; max-width: 280px; padding: 12px; border: 1px solid #e0d6c8; border-radius: 40px; margin: 10px 0; }
+        .goal-field { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0; }
+        .goal-btn { background: #f0ede8; border: none; padding: 10px 24px; border-radius: 40px; cursor: pointer; }
+        .goal-btn.active { background: #1a1a2e; color: white; }
+        .calorie-result, .cycle-result { background: #e8f0e8; padding: 20px; border-radius: 20px; margin: 20px 0; }
+        .menu-options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin: 24px 0; }
+        .menu-option-card { background: #faf8f5; border-radius: 24px; padding: 20px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; }
+        .menu-option-card.selected { border-color: #4a7c59; background: #f0f5f0; }
+        .menu-option-card h4 { margin-bottom: 8px; }
+        .menu-desc { font-size: 0.8rem; color: #c4a87c; margin-bottom: 16px; }
+        .meal-detail { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin: 20px 0; }
+        .meal-detail-item { background: white; padding: 16px; border-radius: 20px; }
+        .recipe-link { margin-top: 10px; font-size: 0.8rem; color: #c4a87c; display: inline-block; }
         .back-link { display: inline-block; margin-bottom: 24px; color: #1a1a2e; text-decoration: none; font-weight: 500; }
-        .pregnancy-badge { background: #e8a87c; color: white; padding: 8px 16px; border-radius: 40px; display: inline-block; margin-bottom: 20px; }
-        
-        /* Слайдер для меню */
-        .menu-slider-container { margin-top: 32px; }
-        .menu-slider-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
-        .menu-slider-header h3 { margin: 0; font-size: 1.3rem; }
-        .slider-controls { display: flex; gap: 12px; align-items: center; }
-        .slider-btn { background: #1a1a2e; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; transition: all 0.2s; }
-        .slider-btn:hover { background: #2d2d4e; transform: scale(1.05); }
-        .slider-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
-        .day-indicator { font-size: 0.9rem; color: #666; background: #f0ede8; padding: 8px 16px; border-radius: 40px; }
-        .menu-slider { overflow-x: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
-        .menu-slider-track { display: flex; gap: 24px; padding: 8px 4px 24px; }
-        .menu-day-card { flex: 0 0 calc(33.333% - 16px); min-width: 280px; background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); transition: transform 0.2s; }
-        .menu-day-card:hover { transform: translateY(-4px); }
-        .menu-day-header { background: #1a1a2e; color: white; padding: 12px 20px; font-weight: 600; font-size: 1.1rem; }
-        .menu-day-content { padding: 20px; }
-        .menu-day-meal { margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 12px; }
-        .menu-day-meal:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-        .menu-day-meal strong { color: #c4a87c; display: block; font-size: 0.85rem; margin-bottom: 4px; }
-        .menu-day-meal span { font-size: 0.85rem; color: #333; line-height: 1.4; }
-        @media (max-width: 768px) { .menu-day-card { flex: 0 0 calc(100% - 16px); } }
-        
-        .day-dots { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; justify-content: center; }
-        .day-dot { width: 36px; height: 36px; border-radius: 50%; background: #f0ede8; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-weight: 500; }
-        .day-dot.active { background: #1a1a2e; color: white; }
-        .day-dot:hover:not(.active) { background: #e0d6c8; }
+        .info-note { background: #fff8e8; padding: 16px; border-radius: 20px; margin-top: 20px; font-size: 0.85rem; }
     </style>
 </head>
 <body>
-    <div class="dashboard-container">
-        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> На главную</a>
+<div class="dashboard-container">
+    <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> На главную</a>
+    <div id="auth-check" style="text-align:center; padding:40px;">Загрузка...</div>
+    <div id="dashboard-content" style="display:none;">
 
-        <div id="auth-check" style="text-align: center; padding: 40px;"><p>Загрузка...</p></div>
-
-        <div id="dashboard-content" style="display: none;">
-            <!-- Блок замеров -->
-            <div class="dashboard-card">
-                <h2>📏 Мои замеры</h2>
-                <p>Вносите данные раз в неделю, чтобы отслеживать прогресс</p>
-                <div class="measurement-grid">
-                    <div class="measure-item"><label>Вес (кг)</label><input type="number" id="weight" step="0.1" placeholder="55.5"></div>
-                    <div class="measure-item"><label>Обхват под грудью (см)</label><input type="number" id="chest" step="0.5" placeholder="75"></div>
-                    <div class="measure-item"><label>Обхват талии (см)</label><input type="number" id="waist" step="0.5" placeholder="68"></div>
-                    <div class="measure-item"><label>Обхват бёдер (см)</label><input type="number" id="hips" step="0.5" placeholder="92"></div>
-                    <div class="measure-item"><label>Рост (см)</label><input type="number" id="height" step="1" placeholder="165"></div>
-                    <div class="measure-item"><label>Возраст</label><input type="number" id="age" step="1" placeholder="30"></div>
-                </div>
-                <button id="save-measurements" class="btn-save"><i class="fas fa-save"></i> Сохранить замеры</button>
+        <!-- Замеры -->
+        <div class="dashboard-card">
+            <h2>📏 Мои замеры</h2>
+            <div class="measurement-grid">
+                <div class="measure-item"><label>Вес (кг)</label><input type="number" id="weight" step="0.1" placeholder="55.5"></div>
+                <div class="measure-item"><label>Рост (см)</label><input type="number" id="height" step="1" placeholder="165"></div>
+                <div class="measure-item"><label>Возраст</label><input type="number" id="age" step="1" placeholder="30"></div>
             </div>
-
-            <!-- Блок калькулятора калорий -->
-            <div class="dashboard-card">
-                <h2>🔥 Калькулятор калорий</h2>
-                <select id="activity-level">
-                    <option value="1.2">Минимальная активность (сидячая работа)</option>
-                    <option value="1.375">Лёгкая активность (1-3 тренировки в неделю)</option>
-                    <option value="1.55">Средняя активность (3-5 тренировок)</option>
-                    <option value="1.725">Высокая активность (6-7 тренировок)</option>
-                    <option value="1.9">Очень высокая активность</option>
-                </select>
-                <button id="calc-calories" class="btn-save"><i class="fas fa-calculator"></i> Рассчитать норму калорий</button>
-                <div id="calorie-result" class="cycle-result" style="display: none;"></div>
+            <div class="goal-field">
+                <button class="goal-btn" data-goal="loss">🔥 Похудение</button>
+                <button class="goal-btn active" data-goal="maintain">⚖️ Поддержание</button>
+                <button class="goal-btn" data-goal="gain">💪 Набор массы</button>
             </div>
+            <button id="save-measurements" class="btn-save"><i class="fas fa-save"></i> Сохранить</button>
+            <div id="calorie-result" class="calorie-result" style="display:none;"></div>
+        </div>
 
-            <!-- Блок женского цикла и беременности -->
-            <div class="dashboard-card">
-                <h2>🌸 Женский цикл и питание</h2>
-                <p>Узнайте фазу цикла и получите персональное меню</p>
-                
-                <div class="cycle-field">
-                    <label>📅 Первый день последних месячных:</label>
-                    <input type="date" id="last-period-start">
-                </div>
-                <div class="cycle-field">
-                    <label>⏱️ Средняя длина цикла (дней):</label>
-                    <input type="number" id="cycle-length" value="28" min="21" max="35" step="1">
-                    <small>Обычно 21–35 дней, стандарт — 28</small>
-                </div>
-                
-                <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 20px;">
-                    <div style="flex: 1; min-width: 200px;">
-                        <label>🤰 Статус:</label>
-                        <select id="is-pregnant" style="width: 100%; max-width: 100%;">
-                            <option value="no">❌ Не беременна</option>
-                            <option value="yes">✅ Да, беременна</option>
-                            <option value="unsure">❓ Не уверена / Возможно</option>
-                        </select>
-                    </div>
-                    <button id="pregnant-quick-btn" class="btn-outline" style="margin-top: 8px;">
-                        <i class="fas fa-baby-carriage"></i> Я беременна
-                    </button>
-                </div>
-                
-                <div id="pregnancy-fields" style="display: none;">
-                    <div class="cycle-field">
-                        <label>📊 Триместр:</label>
-                        <select id="trimester">
-                            <option value="1">1-й триместр (1–13 недель)</option>
-                            <option value="2">2-й триместр (14–27 недель)</option>
-                            <option value="3">3-й триместр (28–40 недель)</option>
-                        </select>
-                    </div>
-                    <div class="cycle-field">
-                        <label>🩸 Уровень гемоглобина:</label>
-                        <select id="hemoglobin">
-                            <option value="normal">Норма (≥ 110 г/л)</option>
-                            <option value="low">Низкий (анемия)</option>
-                        </select>
-                    </div>
-                    <div class="cycle-field">
-                        <label>🍬 Гестационный сахарный диабет (ГСД):</label>
-                        <select id="gsd">
-                            <option value="no">Нет</option>
-                            <option value="yes">Да</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <button id="calculate-cycle" class="btn-save"><i class="fas fa-chart-line"></i> Узнать фазу и получить меню</button>
-                <div id="cycle-result" class="cycle-result" style="display: none;"></div>
-                <div id="meal-result" class="meal-result" style="display: none;"></div>
-            </div>
+        <!-- Цикл -->
+        <div class="dashboard-card">
+            <h2>🌸 Калькулятор цикла</h2>
+            <div class="cycle-field"><label>📅 Первый день последних месячных:</label><input type="date" id="last-period-start"></div>
+            <div class="cycle-field"><label>⏱️ Средняя длина цикла:</label><input type="number" id="cycle-length" value="28" min="21" max="35"></div>
+            <button id="calculate-cycle" class="btn-save"><i class="fas fa-chart-line"></i> Определить фазу</button>
+            <div id="cycle-result" class="cycle-result" style="display:none;"></div>
+        </div>
 
-            <!-- Блок истории замеров -->
-            <div class="dashboard-card">
-                <h2>📊 История замеров</h2>
-                <div id="history-table"></div>
-            </div>
+        <!-- Ферритин -->
+        <div class="dashboard-card">
+            <h2>🩸 Уровень ферритина</h2>
+            <div class="ferritin-field"><label>Ферритин (нг/мл):</label><input type="number" id="ferritin" step="1" placeholder="например, 25"></div>
+            <button id="save-ferritin" class="btn-save"><i class="fas fa-database"></i> Сохранить</button>
+        </div>
 
-            <!-- Блок напоминаний -->
-            <div class="dashboard-card">
-                <h2>🔔 Напоминания</h2>
-                <p>Включите уведомления, чтобы я напоминала вам о замерах и тренировках</p>
-                <button id="enable-notifications" class="btn-outline"><i class="fas fa-bell"></i> Включить напоминания</button>
+        <!-- Меню -->
+        <div class="dashboard-card" id="menu-block" style="display:none;">
+            <h2>🍽️ Меню на сегодня</h2>
+            <p>Подобрано под фазу <span id="current-phase-name"></span>, ферритин <span id="ferritin-status"></span>, цель <span id="goal-name"></span> — <span id="calories-range"></span> ккал</p>
+            <div id="menu-options" class="menu-options-grid"></div>
+            <div id="selected-menu" class="selected-menu-result" style="display:none;">
+                <h3>✅ Вы выбрали меню:</h3>
+                <div id="selected-menu-details"></div>
+                <button id="save-menu-choice" class="btn-save"><i class="fas fa-heart"></i> Сохранить в мою кулинарную книгу</button>
             </div>
         </div>
+
+        <div class="dashboard-card"><h2>📊 История замеров</h2><div id="history-table"></div></div>
+        <div class="dashboard-card"><h2>🔔 Напоминания</h2><button id="enable-notifications" class="btn-outline"><i class="fas fa-bell"></i> Включить</button></div>
     </div>
+</div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyArSzPNl80_orGdu5B8y8T_0ksIFR0xdaQ",
-            authDomain: "valeriyaradkova-d61db.firebaseapp.com",
-            projectId: "valeriyaradkova-d61db",
-            storageBucket: "valeriyaradkova-d61db.firebasestorage.app",
-            messagingSenderId: "404181139779",
-            appId: "1:404181139779:web:90bd04d393d62b73c46ff6",
-            measurementId: "G-XDPYTD6XDN"
-        };
+    const firebaseConfig = {
+        apiKey: "AIzaSyArSzPNl80_orGdu5B8y8T_0ksIFR0xdaQ",
+        authDomain: "valeriyaradkova-d61db.firebaseapp.com",
+        projectId: "valeriyaradkova-d61db",
+        storageBucket: "valeriyaradkova-d61db.firebasestorage.app",
+        messagingSenderId: "404181139779",
+        appId: "1:404181139779:web:90bd04d393d62b73c46ff6"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    let currentUser = null;
+    let selectedMenu = null;
+    let currentCalories = 0;
+    let currentGoal = "maintain";
+    let currentFerritinLevel = null;
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
+    // ---------- БАЗА МЕНЮ (полностью из ваших таблиц) ----------
+    const ferritinMenus = {
+        low: {  // низкий ферритин (<50)
+            1200: { name: "1200–1300 ккал", menus: [
+                { id: "low_1200_d1", title: "🩸 Меню, день 1", desc: "Насыщено железом и витамином С", meals: { breakfast: "Омлет из 2 яиц + 50 г говядины + шпинат (50 г) + перец (50 г)", lunch: "120 г гречки + 100 г куриной печени + салат из квашеной капусты (100 г)", dinner: "130 г скумбрии + 200 г цветной капусты + томаты (100 г)", snack: "150 мл кефира 1%" } },
+                { id: "low_1200_d2", title: "🩸 Меню, день 2", desc: "Чечевица и печень", meals: { breakfast: "2 яйца пашот + 100 г говядины + руккола (50 г)", lunch: "150 г чечевичного супа + 100 г курицы", dinner: "150 г куриной печени + 200 г брокколи + огурец (100 г)", snack: "1 зелёное яблоко" } }
+            ] },
+            1350: { name: "1300–1400 ккал", menus: [
+                { id: "low_1350_d1", title: "🩸 Меню, день 1", desc: "+ яйцо и больше овощей", meals: { breakfast: "Омлет из 2 яиц + 70 г говядины + шпинат (70 г) + перец (70 г)", lunch: "150 г гречки + 120 г печени + капуста (150 г)", dinner: "170 г скумбрии + 200 г цветной капусты + томаты (120 г)", snack: "150 мл кефира + ягоды" } },
+                { id: "low_1350_d2", title: "🩸 Меню, день 2", desc: "С апельсином и орехами", meals: { breakfast: "2 яйца пашот + 120 г говядины + руккола (80 г)", lunch: "170 г чечевичного супа + 120 г курицы", dinner: "170 г куриной печени + 200 г брокколи + огурец (150 г)", snack: "1 апельсин + 10 г орехов" } }
+            ] },
+            1450: { name: "1400–1500 ккал", menus: [
+                { id: "low_1450_d1", title: "🩸 Меню, день 1", desc: "+ творог и черника", meals: { breakfast: "Омлет из 2 яиц + 70 г говядины + шпинат (80 г) + перец (80 г)", lunch: "170 г гречки + 120 г печени + капуста (150 г)", dinner: "170 г скумбрии + 200 г цветной капусты + томаты (120 г)", snack: "150 мл кефира + 30 г черники" } },
+                { id: "low_1450_d2", title: "🩸 Меню, день 2", desc: "С творогом на завтрак", meals: { breakfast: "150 г творога 2% + 70 г черники + орехи", lunch: "170 г гречки + 150 г языка + капуста (170 г)", dinner: "170 г скумбрии + 200 г фасоли + баклажаны (150 г)", snack: "1 апельсин + 10 г миндаля" } }
+            ] },
+            1550: { name: "1500–1600 ккал", menus: [
+                { id: "low_1550_d1", title: "🩸 Меню, день 1", desc: "3 яйца, больше крупы", meals: { breakfast: "Омлет из 3 яиц + 80 г говядины + шпинат (100 г)", lunch: "180 г гречки + 150 г печени + капуста (180 г)", dinner: "180 г скумбрии + 220 г цветной капусты + томаты (150 г)", snack: "200 мл кефира + 50 г черники" } },
+                { id: "low_1550_d2", title: "🩸 Меню, день 2", desc: "С фруктами", meals: { breakfast: "2 яйца пашот + 150 г говядины + руккола (100 г)", lunch: "180 г чечевичного супа + 150 г курицы", dinner: "180 г куриной печени + 220 г брокколи + огурец (150 г)", snack: "1 яблоко + 1 апельсин + 15 г орехов" } }
+            ] },
+            1650: { name: "1600–1700 ккал", menus: [
+                { id: "low_1650_d1", title: "🩸 Меню, день 1", desc: "2 тоста, двойная порция овощей", meals: { breakfast: "Омлет из 3 яиц + 100 г говядины + шпинат (120 г) + 2 тоста", lunch: "200 г гречки + 180 г печени + капуста (200 г)", dinner: "200 г скумбрии + 250 г цветной капусты + томаты (150 г)", snack: "200 мл кефира + 70 г черники + орехи" } },
+                { id: "low_1650_d2", title: "🩸 Меню, день 2", desc: "С грушей и киви", meals: { breakfast: "200 г творога 2% + 100 г черники + орехи", lunch: "200 г гречки + 200 г языка + капуста (200 г)", dinner: "200 г скумбрии + 250 г фасоли + баклажаны (180 г)", snack: "1 апельсин + 1 киви + 15 г орехов" } }
+            ] },
+            1750: { name: "1700–1800 ккал", menus: [
+                { id: "low_1750_d1", title: "🩸 Меню, день 1", desc: "Максимум овощей", meals: { breakfast: "Омлет из 3 яиц + 120 г говядины + шпинат (150 г) + 2 тоста", lunch: "220 г гречки + 200 г печени + капуста (220 г)", dinner: "220 г скумбрии + 300 г цветной капусты + томаты (180 г)", snack: "200 мл кефира + 80 г черники + яблоко" } },
+                { id: "low_1750_d2", title: "🩸 Меню, день 2", desc: "Двойной перекус", meals: { breakfast: "2 яйца пашот + 200 г говядины + руккола (150 г)", lunch: "220 г чечевичного супа + 200 г курицы", dinner: "220 г куриной печени + 300 г брокколи + огурец (200 г)", snack: "1 яблоко + 1 апельсин + 1 груша + 20 г орехов" } }
+            ] },
+            1850: { name: "1800–1900 ккал", menus: [
+                { id: "low_1850_d1", title: "🩸 Меню, день 1", desc: "4 яйца, авокадо", meals: { breakfast: "Омлет из 4 яиц + 150 г говядины + шпинат (180 г) + авокадо (50 г)", lunch: "250 g гречки + 220 г печени + капуста (250 г)", dinner: "250 г скумбрии + 350 г цветной капусты + томаты (200 г)", snack: "250 мл кефира + 100 г черники + яблоко + груша" } },
+                { id: "low_1850_d2", title: "🩸 Меню, день 2", desc: "С бананом и маслом", meals: { breakfast: "250 г творога 2% + 150 г черники + 25 г орехов + тост", lunch: "250 г гречки + 250 г языка + капуста (250 г)", dinner: "250 г скумбрии + 350 г фасоли + баклажаны (250 г)", snack: "1 апельсин + 1 банан + 25 г орехов" } }
+            ] },
+            1950: { name: "1900–2000 ккал", menus: [
+                { id: "low_1950_d1", title: "🩸 Меню, день 1", desc: "Максимальная порция", meals: { breakfast: "Омлет из 4 яиц + 180 г говядины + шпинат (200 г) + авокадо (70 г)", lunch: "280 г гречки + 250 г печени + капуста (280 г)", dinner: "280 г скумбрии + 400 г цветной капусты + томаты (250 г)", snack: "250 мл кефира + 120 г черники + яблоко + груша + банан" } },
+                { id: "low_1950_d2", title: "🩸 Меню, день 2", desc: "Суп-пюре и фрукты", meals: { breakfast: "2 яйца пашот + 280 г говядины + руккола (200 г) + авокадо", lunch: "280 г чечевичного супа + 280 г курицы", dinner: "280 г куриной печени + 400 г брокколи + огурец (280 г)", snack: "1 яблоко + 1 апельсин + 1 груша + 1 банан + 30 г орехов" } }
+            ] }
+        },
+        normal: {  // нормальный ферритин (50–150) — упрощённое меню (пример)
+            1200: { name: "1200–1300 ккал", menus: [{ id: "norm_1200", title: "🌿 Базовое меню", desc: "Сбалансированное питание", meals: { breakfast: "Овсянка с ягодами + 2 яйца", lunch: "Гречка с курицей + овощи", dinner: "Рыба на пару + салат", snack: "Кефир" } }] },
+            1550: { name: "1500–1600 ккал", menus: [{ id: "norm_1550", title: "🌿 Энергичное меню", desc: "Для активности", meals: { breakfast: "Омлет с авокадо", lunch: "Рис с индейкой", dinner: "Запечённый лосось", snack: "Творог с ягодами" } }] }
+        }
+    };
 
-        const authCheckDiv = document.getElementById('auth-check');
-        const dashboardContent = document.getElementById('dashboard-content');
+    function getFerritinStatus(ferritin) {
+        if (ferritin === null || ferritin === "") return null;
+        if (ferritin < 50) return "low";
+        if (ferritin <= 150) return "normal";
+        return "high";
+    }
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                authCheckDiv.style.display = 'none';
-                dashboardContent.style.display = 'block';
-                initDashboard();
-            } else {
-                authCheckDiv.innerHTML = '<p>Пожалуйста, <a href="index.html" style="color:#1a1a2e;">войдите</a> в личный кабинет на главной странице</p>';
-                dashboardContent.style.display = 'none';
-            }
+    function getTargetCalories(weight, height, age, goal) {
+        let bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+        let tdee = bmr * 1.375; // средняя активность
+        if (goal === "loss") return Math.round(tdee * 0.85);
+        if (goal === "gain") return Math.round(tdee * 1.1);
+        return Math.round(tdee);
+    }
+
+    function findNearestCalorieRange(calories) {
+        const ranges = [1200, 1350, 1450, 1550, 1650, 1750, 1850, 1950];
+        return ranges.reduce((prev, curr) => Math.abs(curr - calories) < Math.abs(prev - calories) ? curr : prev);
+    }
+
+    function renderMenus() {
+        let weight = parseFloat(document.getElementById('weight').value);
+        let height = parseFloat(document.getElementById('height').value);
+        let age = parseFloat(document.getElementById('age').value);
+        if (!weight || !height || !age) { alert("Заполните вес, рост и возраст"); return; }
+        currentCalories = getTargetCalories(weight, height, age, currentGoal);
+        let calRange = findNearestCalorieRange(currentCalories);
+        let ferritinVal = document.getElementById('ferritin').value ? parseFloat(document.getElementById('ferritin').value) : null;
+        let ferritinStatus = getFerritinStatus(ferritinVal);
+        if (!ferritinStatus) ferritinStatus = "normal";
+        let menuData = ferritinMenus[ferritinStatus]?.[calRange];
+        if (!menuData) menuData = ferritinMenus.normal[calRange] || ferritinMenus.normal[1550];
+        document.getElementById('calories-range').innerText = menuData.name;
+        document.getElementById('ferritin-status').innerText = ferritinStatus === "low" ? "низкий" : (ferritinStatus === "normal" ? "норма" : "высокий");
+        let container = document.getElementById('menu-options');
+        container.innerHTML = menuData.menus.map(m => `<div class="menu-option-card" data-menu='${JSON.stringify(m)}'><h4>${m.title}</h4><div class="menu-desc">${m.desc}</div><div class="meal-preview"><p>🌅 ${m.meals.breakfast.substring(0, 60)}...</p><p>☀️ ${m.meals.lunch.substring(0, 60)}...</p><p>🌙 ${m.meals.dinner.substring(0, 60)}...</p></div></div>`).join('');
+        document.querySelectorAll('.menu-option-card').forEach(card => {
+            card.onclick = () => { selectMenu(JSON.parse(card.dataset.menu)); };
         });
+        document.getElementById('menu-block').style.display = 'block';
+    }
 
-        function initDashboard() {
-            loadMeasurements();
-            document.getElementById('save-measurements').addEventListener('click', saveMeasurements);
-            document.getElementById('calc-calories').addEventListener('click', calculateCalories);
-            document.getElementById('calculate-cycle').addEventListener('click', calculateCycleAndMeal);
-            document.getElementById('enable-notifications').addEventListener('click', () => {
-                if (Notification.permission !== 'granted') {
-                    Notification.requestPermission().then(perm => { if (perm === 'granted') alert('Уведомления включены!'); });
-                } else { alert('Уведомления уже включены'); }
-            });
-            
-            // Кнопка "Я беременна"
-            document.getElementById('pregnant-quick-btn').addEventListener('click', () => {
-                document.getElementById('is-pregnant').value = 'yes';
-                document.getElementById('pregnancy-fields').style.display = 'block';
-                document.getElementById('pregnancy-fields').scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-            
-            document.getElementById('is-pregnant').addEventListener('change', (e) => {
-                document.getElementById('pregnancy-fields').style.display = e.target.value === 'no' ? 'none' : 'block';
-            });
-            
-            const savedLastPeriod = localStorage.getItem('cycle_last_period');
-            const savedCycleLength = localStorage.getItem('cycle_length');
-            const savedIsPregnant = localStorage.getItem('is_pregnant');
-            const savedTrimester = localStorage.getItem('trimester');
-            const savedHemoglobin = localStorage.getItem('hemoglobin');
-            const savedGsd = localStorage.getItem('gsd');
-            
-            if (savedLastPeriod) document.getElementById('last-period-start').value = savedLastPeriod;
-            if (savedCycleLength) document.getElementById('cycle-length').value = savedCycleLength;
-            if (savedIsPregnant) {
-                document.getElementById('is-pregnant').value = savedIsPregnant;
-                if (savedIsPregnant !== 'no') {
-                    document.getElementById('pregnancy-fields').style.display = 'block';
-                    if (savedTrimester) document.getElementById('trimester').value = savedTrimester;
-                    if (savedHemoglobin) document.getElementById('hemoglobin').value = savedHemoglobin;
-                    if (savedGsd) document.getElementById('gsd').value = savedGsd;
-                }
-            }
-        }
+    function selectMenu(menu) {
+        selectedMenu = menu;
+        document.querySelectorAll('.menu-option-card').forEach(c => c.classList.remove('selected'));
+        document.getElementById('selected-menu-details').innerHTML = `
+            <div class="meal-detail">
+                <div class="meal-detail-item"><h5>🌅 Завтрак</h5><p>${menu.meals.breakfast}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.meals.breakfast.split('+')[0])}" target="_blank">Рецепт →</a></div>
+                <div class="meal-detail-item"><h5>☀️ Обед</h5><p>${menu.meals.lunch}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.meals.lunch.split('+')[0])}" target="_blank">Рецепт →</a></div>
+                <div class="meal-detail-item"><h5>🌙 Ужин</h5><p>${menu.meals.dinner}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.meals.dinner.split('+')[0])}" target="_blank">Рецепт →</a></div>
+                <div class="meal-detail-item"><h5>🍎 Перекус</h5><p>${menu.meals.snack}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.meals.snack.split(',')[0])}" target="_blank">Рецепт →</a></div>
+            </div>`;
+        document.getElementById('selected-menu').style.display = 'block';
+    }
 
-        function saveMeasurements() {
-            const measurements = {
-                date: new Date().toISOString(),
-                weight: document.getElementById('weight').value,
-                chest: document.getElementById('chest').value,
-                waist: document.getElementById('waist').value,
-                hips: document.getElementById('hips').value,
-                height: document.getElementById('height').value,
-                age: document.getElementById('age').value
-            };
-            let history = JSON.parse(localStorage.getItem('user_measurements') || '[]');
-            history.push(measurements);
-            localStorage.setItem('user_measurements', JSON.stringify(history));
-            alert('Замеры сохранены!');
-            loadMeasurements();
-        }
+    async function saveMenuToCookbook() {
+        if (!currentUser) { alert("Войдите в аккаунт"); return; }
+        if (!selectedMenu) { alert("Выберите меню"); return; }
+        try {
+            let userRef = doc(db, "users", currentUser.uid);
+            let userSnap = await getDoc(userRef);
+            let saved = userSnap.exists() ? (userSnap.data().savedMenus || []) : [];
+            if (saved.some(m => m.id === selectedMenu.id)) { alert("Уже сохранено"); return; }
+            await updateDoc(userRef, { savedMenus: arrayUnion({ ...selectedMenu, savedAt: new Date().toISOString() }) });
+            alert("Сохранено в кулинарную книгу!");
+        } catch(e) { if(e.code==='not-found') await setDoc(doc(db,"users",currentUser.uid),{savedMenus:[{...selectedMenu,savedAt:new Date().toISOString()}]}); else console.error(e); }
+    }
 
-        function loadMeasurements() {
-            const history = JSON.parse(localStorage.getItem('user_measurements') || '[]');
-            if (history.length > 0) {
-                const last = history[history.length - 1];
-                document.getElementById('weight').value = last.weight || '';
-                document.getElementById('chest').value = last.chest || '';
-                document.getElementById('waist').value = last.waist || '';
-                document.getElementById('hips').value = last.hips || '';
-                document.getElementById('height').value = last.height || '';
-                document.getElementById('age').value = last.age || '';
-            }
-            const historyDiv = document.getElementById('history-table');
-            if (history.length === 0) { historyDiv.innerHTML = '<p>Нет сохранённых замеров</p>'; return; }
-            let html = '<table><thead><tr><th>Дата</th><th>Вес</th><th>Грудь</th><th>Талия</th><th>Бёдра</th></tr></thead><tbody>';
-            history.slice().reverse().forEach(m => {
-                html += `<tr><td>${new Date(m.date).toLocaleDateString()}</td><td>${m.weight || '-'} кг</td><td>${m.chest || '-'} см</td><td>${m.waist || '-'} см</td><td>${m.hips || '-'} см</td></tr>`;
-            });
-            html += '</tbody></table>';
-            historyDiv.innerHTML = html;
-        }
+    function saveMeasurements() {
+        localStorage.setItem('user_measurements', JSON.stringify({ weight: document.getElementById('weight').value, height: document.getElementById('height').value, age: document.getElementById('age').value, goal: currentGoal }));
+        renderMenus();
+    }
 
-        function calculateCalories() {
-            const weight = parseFloat(document.getElementById('weight').value);
-            const height = parseFloat(document.getElementById('height').value);
-            const age = parseFloat(document.getElementById('age').value);
-            const activity = parseFloat(document.getElementById('activity-level').value);
-            if (!weight || !height || !age) { alert('Пожалуйста, заполните вес, рост и возраст'); return; }
-            const bmr = 10 * weight + 6.25 * height - 5 * age - 161;
-            const calories = Math.round(bmr * activity);
-            document.getElementById('calorie-result').style.display = 'block';
-            document.getElementById('calorie-result').innerHTML = `<strong>Ваша норма калорий: ${calories} ккал/день</strong><br>Для поддержания веса. Для похудения вычтите 10-15%, для набора массы — добавьте 10-15%.`;
-        }
-
-        // ========== ВСЕ МЕНЮ ДЛЯ БЕРЕМЕННЫХ (7 дней) ==========
-        const pregnancyMenus = {
-            trimester1: {
-                name: '1-й триместр (1800-2000 ккал)',
-                days: {
-                    1: { 'Завтрак': 'Овсяная каша на молоке с бананом и ложкой мёда. Зелёный чай.', 'Перекус': 'Яблоко + 3-4 грецких ореха', 'Обед': 'Суп-пюре из тыквы с семечками, 150 г запечённого минтая, 150 г гречки. Компот из сухофруктов.', 'Полдник': '150 г творога 5% со сметаной и горстью черники.', 'Ужин': 'Салат из печёной свёклы с черносливом, куриная паровая котлета, тушёные овощи.', 'Поздний ужин': 'Стакан кефира' },
-                    2: { 'Завтрак': 'Сырники из творога (200 г) со сметаной и ягодным соусом. Ромашковый чай.', 'Перекус': 'Груша + горсть миндаля', 'Обед': 'Куриный суп с лапшой, 150 г отварной курицы, 150 г пюре, салат из огурцов и зелени.', 'Полдник': 'Йогурт натуральный (200 мл) с мюсли.', 'Ужин': '150 г запечённой скумбрии, 200 г цветной капусты на пару, салат из листовой зелени.', 'Поздний ужин': 'Тёплое молоко с корицей' },
-                    3: { 'Завтрак': 'Омлет из 2 яиц с помидорами и сыром, тост. Какао на молоке.', 'Перекус': 'Апельсин + горсть кешью', 'Обед': 'Борщ на говяжьем бульоне со сметаной, 150 г тушёной говядины, 150 г бурого риса, салат из капусты с морковью.', 'Полдник': 'Творожная запеканка с изюмом (150 г).', 'Ужин': '150 г куриных тефтелей на пару, 200 г тушёных кабачков с морковью.', 'Поздний ужин': 'Ряженка (200 мл)' },
-                    4: { 'Завтрак': 'Пшённая каша на молоке с тыквой и корицей. Чай с лимоном.', 'Перекус': 'Киви + 2-3 грецких ореха', 'Обед': 'Суп-пюре из брокколи со сливками, 150 г запечённой куриной грудки, 150 г киноа, салат из огурцов и помидоров.', 'Полдник': 'Йогурт греческий (150 г) с мёдом.', 'Ужин': '150 г рыбной котлеты на пару, 200 г стручковой фасоли, салат из пекинской капусты.', 'Поздний ужин': 'Стакан айрана' },
-                    5: { 'Завтрак': 'Льняная каша на воде с ягодами и ложкой мёда. Зелёный чай.', 'Перекус': 'Банан + горсть фундука', 'Обед': 'Солянка сборная мясная (без копчёностей), 150 г говяжьего языка, 150 г гречки, салат из свёклы с чесноком.', 'Полдник': '150 г творога 5% с кусочками персика.', 'Ужин': '150 г запечённой трески, 200 г брокколи на пару, салат из рукколы.', 'Поздний ужин': 'Тёплое молоко с мёдом' },
-                    6: { 'Завтрак': 'Рисовая каша на молоке с яблоком и корицей. Какао.', 'Перекус': 'Горсть черники + 150 г йогурта', 'Обед': 'Грибной суп (на овощном бульоне), 150 г куриной грудки гриль, 150 г бурого риса, салат из помидоров с базиликом.', 'Полдник': 'Запечённое яблоко с творогом.', 'Ужин': '150 г тушёной индейки, 200 г рагу из кабачков и перца, салат из листового салата.', 'Поздний ужин': 'Кефир (200 мл)' },
-                    7: { 'Завтрак': 'Два яйца пашот, авокадо на тосте. Чай с лимоном.', 'Перекус': 'Мандарины (2 шт.) + горсть миндаля', 'Обед': 'Уха из семги, 150 г отварного лосося, 150 г гречки, салат из моркови с яблоком.', 'Полдник': 'Творожный мусс с ягодами (150 г).', 'Ужин': '150 г куриной печени с луком, 200 г тушёной капусты, салат из огурцов с зеленью.', 'Поздний ужин': 'Ряженка (200 мл)' }
-                }
-            },
-            trimester2: {
-                name: '2-й триместр (2200-2400 ккал)',
-                days: {
-                    1: { 'Завтрак': 'Сырники из творога (200 г) со сметаной и ягодным соусом. Какао на молоке.', 'Перекус': 'Бутерброд с авокадо и слабосолёной сёмгой', 'Обед': 'Борщ на говяжьем бульоне со сметаной, 150 г тушёной говядины, 200 г гречки, салат из свежих овощей.', 'Полдник': 'Йогурт натуральный (200 мл) с мюсли и ягодами.', 'Ужин': '200 г запечённого лосося, 200 г цветной капусты на пару, салат из листовой зелени.', 'Поздний ужин': 'Тёплое молоко с корицей и мёдом' },
-                    2: { 'Завтрак': 'Овсяная каша на молоке с бананом и грецкими орехами. Зелёный чай.', 'Перекус': 'Яблоко + горсть кешью', 'Обед': 'Куриный суп с клёцками, 150 г отварной курицы, 200 г пюре, салат из капусты с морковью.', 'Полдник': '150 г творога 5% со сметаной и курагой.', 'Ужин': '200 г рыбной котлеты на пару, 200 г тушёных кабачков, салат из помидоров и огурцов.', 'Поздний ужин': 'Ряженка (200 мл)' },
-                    3: { 'Завтрак': 'Омлет из 3 яиц с брокколи и сыром, тост. Какао.', 'Перекус': 'Груша + горсть миндаля', 'Обед': 'Грибной крем-суп со сливками, 150 г запечённой куриной грудки, 200 г бурого риса, салат из свёклы с черносливом.', 'Полдник': 'Запечённое яблоко с творогом и корицей.', 'Ужин': '200 г тушёной индейки, 200 г стручковой фасоли, салат из листового салата.', 'Поздний ужин': 'Стакан кефира' },
-                    4: { 'Завтрак': 'Пшённая каша на молоке с тыквой и мёдом. Чай с лимоном.', 'Перекус': 'Апельсин + горсть фундука', 'Обед': 'Уха из сёмги (с пшеном), 150 г отварного лосося, 200 г гречки, салат из огурцов и зелени.', 'Полдник': 'Йогурт греческий (200 г) с черникой.', 'Ужин': '200 г говяжьих тефтелей на пару, 200 г цветной капусты, салат из моркови с яблоком.', 'Поздний ужин': 'Тёплое молоко с мёдом' },
-                    5: { 'Завтрак': 'Рисовая каша на молоке с изюмом и корицей. Какао.', 'Перекус': 'Банан + горсть грецких орехов', 'Обед': 'Солянка сборная мясная, 150 г говяжьего языка, 200 г киноа, салат из пекинской капусты.', 'Полдник': 'Творожная запеканка с изюмом (200 г).', 'Ужин': '200 г запечённой скумбрии, 200 г брокколи на пару, салат из рукколы.', 'Поздний ужин': 'Ряженка (200 мл)' },
-                    6: { 'Завтрак': 'Сырники из творога (200 г) с ягодным соусом. Зелёный чай.', 'Перекус': 'Киви + горсть кешью', 'Обед': 'Суп-пюре из тыквы с семечками, 150 г запечённой трески, 200 г гречки, салат из помидоров с базиликом.', 'Полдник': 'Йогурт натуральный (200 мл) с мюсли.', 'Ужин': '200 г куриной печени с луком, 200 г тушёных кабачков, салат из листового салата.', 'Поздний ужин': 'Стакан айрана' },
-                    7: { 'Завтрак': 'Льняная каша на молоке с ягодами и мёдом. Какао.', 'Перекус': 'Мандарины (2 шт.) + горсть миндаля', 'Обед': 'Борщ на говяжьем бульоне со сметаной, 150 г тушёной говядины, 200 г бурого риса, салат из капусты с морковью.', 'Полдник': '150 г творога 5% с кусочками персика.', 'Ужин': '200 г рыбных котлет на пару, 200 г цветной капусты, салат из огурцов с зеленью.', 'Поздний ужин': 'Тёплое молоко с корицей' }
-                }
-            },
-            trimester3: {
-                name: '3-й триместр (2300-2500 ккал)',
-                days: {
-                    1: { 'Завтрак': 'Запеканка из творога с изюмом и курагой. Чай с молоком.', 'Перекус': 'Банан и горсть грецких орехов', 'Обед': 'Солянка сборная мясная, 150 г отварной курицы, 200 г пюре, салат из огурцов и помидоров.', 'Полдник': 'Запечённое яблоко с творогом и корицей.', 'Ужин': '200 г рыбной котлеты на пару, 200 г рагу из кабачков, перца и моркови.', 'Поздний ужин': 'Биойогурт (200 мл)' },
-                    2: { 'Завтрак': 'Омлет из 3 яиц с брокколи и сыром, тост. Какао.', 'Перекус': 'Груша + горсть миндаля', 'Обед': 'Куриный суп с лапшой, 150 г отварной курицы, 200 г гречки, салат из свёклы с черносливом.', 'Полдник': '150 г творога 5% со сметаной и черникой.', 'Ужин': '200 г запечённой трески, 200 г стручковой фасоли, салат из листовой зелени.', 'Поздний ужин': 'Тёплое молоко с мёдом' },
-                    3: { 'Завтрак': 'Овсяная каша на молоке с бананом и грецкими орехами. Зелёный чай.', 'Перекус': 'Яблоко + горсть кешью', 'Обед': 'Суп-пюре из брокколи со сливками, 150 г запечённой куриной грудки, 200 г бурого риса, салат из капусты с морковью.', 'Полдник': 'Йогурт греческий (200 г) с мёдом.', 'Ужин': '200 г говяжьих тефтелей на пару, 200 г цветной капусты, салат из помидоров с базиликом.', 'Поздний ужин': 'Ряженка (200 мл)' },
-                    4: { 'Завтрак': 'Сырники из творога (200 г) с ягодным соусом. Какао.', 'Перекус': 'Апельсин + горсть фундука', 'Обед': 'Грибной крем-суп со сливками, 150 г тушёной индейки, 200 г киноа, салат из моркови с яблоком.', 'Полдник': 'Запечённое яблоко с творогом.', 'Ужин': '200 г запечённой скумбрии, 200 г брокколи на пару, салат из рукколы.', 'Поздний ужин': 'Стакан кефира' },
-                    5: { 'Завтрак': 'Рисовая каша на молоке с изюмом и корицей. Чай с лимоном.', 'Перекус': 'Банан + горсть грецких орехов', 'Обед': 'Борщ на говяжьем бульоне со сметаной, 150 г говяжьего языка, 200 г гречки, салат из свежих овощей.', 'Полдник': 'Творожная запеканка с изюмом (200 г).', 'Ужин': '200 г куриных тефтелей на пару, 200 г тушёных кабачков, салат из листового салата.', 'Поздний ужин': 'Тёплое молоко с корицей' },
-                    6: { 'Завтрак': 'Льняная каша на молоке с ягодами и мёдом. Какао.', 'Перекус': 'Киви + горсть миндаля', 'Обед': 'Уха из семги (с пшеном), 150 г отварного лосося, 200 г бурого риса, салат из огурцов и зелени.', 'Полдник': 'Йогурт натуральный (200 мл) с мюсли.', 'Ужин': '200 г рыбной котлеты на пару, 200 г цветной капусты, салат из пекинской капусты.', 'Поздний ужин': 'Ряженка (200 мл)' },
-                    7: { 'Завтрак': 'Пшённая каша на молоке с тыквой и мёдом. Зелёный чай.', 'Перекус': 'Мандарины (2 шт.) + горсть кешью', 'Обед': 'Солянка сборная мясная, 150 г отварной курицы, 200 г гречки, салат из свёклы с черносливом.', 'Полдник': '150 г творога 5% с кусочками персика.', 'Ужин': '200 г запечённой трески, 200 г стручковой фасоли, салат из помидоров и огурцов.', 'Поздний ужин': 'Биойогурт (200 мл)' }
-                }
-            },
-            anemia: {
-                name: 'При низком гемоглобине (анемия)',
-                days: {
-                    1: { 'Завтрак': 'Гречневая каша на молоке, компот из шиповника и чёрной смородины.', 'Перекус': 'Яблоко + горсть кешью', 'Обед': 'Борщ на говяжьем бульоне, 150 г говяжьего языка, 200 г гречки, салат из шпината и болгарского перца.', 'Полдник': 'Салат из свёклы с черносливом и грецкими орехами.', 'Ужин': '150 г запечённой скумбрии, 200 г стручковой фасоли на пару, свежий гранат.', 'Поздний ужин': 'Стакан ряженки' },
-                    2: { 'Завтрак': 'Омлет из 2 яиц с шпинатом, тост. Чай из шиповника.', 'Перекус': 'Апельсин + горсть грецких орехов', 'Обед': 'Суп-пюре из чечевицы, 150 г тушёной говядины, 150 г бурого риса, салат из листовой зелени с лимонным соком.', 'Полдник': '150 г творога 5% с кусочками хурмы.', 'Ужин': '150 г куриной печени с луком, 200 г тушёной капусты, салат из огурцов с зеленью.', 'Поздний ужин': 'Стакан кефира' },
-                    3: { 'Завтрак': 'Овсяная каша на молоке с яблоком и корицей. Компот из сухофруктов.', 'Перекус': 'Горсть черники + 150 г йогурта', 'Обед': 'Грибной суп на говяжьем бульоне, 150 г говяжьей печени, 200 г гречки, салат из капусты с морковью и лимонным соком.', 'Полдник': 'Запечённое яблоко с творогом и курагой.', 'Ужин': '150 г отварного лосося, 200 г брокколи на пару, гранатовый сок.', 'Поздний ужин': 'Ряженка (200 мл)' },
-                    4: { 'Завтрак': 'Пшённая каша на молоке с тыквой и мёдом. Чай из шиповника.', 'Перекус': 'Киви + горсть миндаля', 'Обед': 'Свекольник (тёплый), 150 г тушёной индейки, 150 г гречки, салат из рукколы с кедровыми орехами.', 'Полдник': '150 г творога 5% с горстью черники.', 'Ужин': '150 г говяжьих тефтелей на пару, 200 г цветной капусты, салат из помидоров с базиликом.', 'Поздний ужин': 'Стакан айрана' },
-                    5: { 'Завтрак': 'Рисовая каша на молоке с изюмом и курагой. Какао на молоке.', 'Перекус': 'Банан + горсть грецких орехов', 'Обед': 'Солянка сборная мясная, 150 г говяжьего языка, 200 г бурого риса, салат из свёклы с черносливом.', 'Полдник': 'Запечённая груша с творогом.', 'Ужин': '150 г запечённой скумбрии, 200 г стручковой фасоли, апельсиновый сок.', 'Поздний ужин': 'Биойогурт (200 мл)' },
-                    6: { 'Завтрак': 'Льняная каша на воде с ягодами и мёдом. Компот из шиповника.', 'Перекус': 'Грейпфрут + горсть кешью', 'Обед': 'Гороховый суп на говяжьем бульоне, 150 г отварной говядины, 200 г гречки, салат из шпината и болгарского перца.', 'Полдник': '150 г творога 5% с кусочками персика.', 'Ужин': '150 г куриной печени с луком, 200 г тушёных кабачков, салат из листового салата.', 'Поздний ужин': 'Стакан кефира' },
-                    7: { 'Завтрак': 'Сырники из творога (200 г) с ягодным соусом. Чай из шиповника.', 'Перекус': 'Мандарины (2 шт.) + горсть фундука', 'Обед': 'Борщ на говяжьем бульоне, 150 г тушёной говядины, 200 г гречки, салат из капусты с морковью.', 'Полдник': 'Салат из свёклы с черносливом и грецкими орехами.', 'Ужин': '150 г запечённой трески, 200 г брокколи на пару, гранат.', 'Поздний ужин': 'Ряженка (200 мл)' }
-                }
-            },
-            gsd: {
-                name: 'При гестационном сахарном диабете (ГСД)',
-                days: {
-                    1: { 'Завтрак': 'Омлет из 2 яиц с брокколи и сыром, цикорий.', 'Перекус': 'Горсть миндаля + зелёное яблоко', 'Обед': 'Овощной суп на курином бульоне, 150 г куриной грудки, 200 г салата из капусты с огурцом, паровые тефтели из индейки.', 'Полдник': 'Творог 5% (150 г) с черникой.', 'Ужин': '200 г запечённой горбуши, 250 г тушёных баклажанов с помидорами.', 'Поздний ужин': 'Стакан ряженки' },
-                    2: { 'Завтрак': 'Гречневая каша на воде (150 г) с маслом, чай без сахара.', 'Перекус': 'Груша + горсть грецких орехов', 'Обед': 'Суп-пюре из брокколи со сливками (без картофеля), 150 г отварной курицы, 150 г салата из огурцов и помидоров.', 'Полдник': 'Йогурт греческий натуральный (150 г) с ягодами.', 'Ужин': '200 г тушёной индейки, 250 г цветной капусты на пару, салат из листового салата.', 'Поздний ужин': 'Стакан кефира' },
-                    3: { 'Завтрак': 'Сырники из творога (200 г) с овсяными отрубями, запечённые. Цикорий.', 'Перекус': 'Горсть кешью + зелёное яблоко', 'Обед': 'Грибной суп (на овощном бульоне), 150 г запечённой куриной грудки, 200 г салата из пекинской капусты.', 'Полдник': 'Творог 5% (150 г) с корицей.', 'Ужин': '200 г рыбных котлет на пару (из минтая), 250 г тушёных кабачков с морковью.', 'Поздний ужин': 'Биойогурт (200 мл)' },
-                    4: { 'Завтрак': 'Омлет из 3 яиц с грибами и шпинатом, чай без сахара.', 'Перекус': 'Апельсин + горсть миндаля', 'Обед': 'Борщ на говяжьем бульоне (без картофеля), 150 г отварной говядины, 150 г салата из капусты с морковью.', 'Полдник': 'Запечённое яблоко с творогом и корицей.', 'Ужин': '200 г запечённой скумбрии, 250 г стручковой фасоли на пару.', 'Поздний ужин': 'Стакан айрана' },
-                    5: { 'Завтрак': 'Льняная каша на воде (20 г) с черникой. Цикорий.', 'Перекус': 'Киви + горсть грецких орехов', 'Обед': 'Суп-пюре из цветной капусты со сливками, 150 г куриных тефтелей на пару, 200 г салата из огурцов и зелени.', 'Полдник': '150 г творога 5% с кусочками грейпфрута.', 'Ужин': '200 г тушёной говядины, 250 г брокколи на пару, салат из рукколы.', 'Поздний ужин': 'Ряженка (200 мл)' },
-                    6: { 'Завтрак': 'Пшённая каша на воде с тыквой (без сахара), чай без сахара.', 'Перекус': 'Горсть фундука + зелёное яблоко', 'Обед': 'Гороховый суп (без картофеля), 150 г запечённой индейки, 200 г салата из помидоров и огурцов.', 'Полдник': 'Йогурт греческий натуральный (150 г) с корицей.', 'Ужин': '200 г рыбной котлеты на пару (из хека), 250 г тушёных баклажанов с помидорами.', 'Поздний ужин': 'Стакан кефира' },
-                    7: { 'Завтрак': 'Гречневая каша на воде с маслом и черникой. Цикорий.', 'Перекус': 'Груша + горсть миндаля', 'Обед': 'Овощной суп с фрикадельками из индейки, 150 г отварной курицы, 200 г салата из капусты с огурцом.', 'Полдник': 'Творог 5% (150 г) с кусочками персика.', 'Ужин': '200 г запечённой трески, 250 г цветной капусты на пару, салат из листового салата.', 'Поздний ужин': 'Биойогурт (200 мл)' }
-                }
-            }
-        };
-
-        function getPregnancyMenu(trimester, hemoglobin, gsd) {
-            if (gsd === 'yes') return pregnancyMenus.gsd;
-            if (hemoglobin === 'low') return pregnancyMenus.anemia;
-            if (trimester === '1') return pregnancyMenus.trimester1;
-            if (trimester === '2') return pregnancyMenus.trimester2;
-            return pregnancyMenus.trimester3;
-        }
-
-        // Функция для отображения слайдера со всеми днями меню
-        function renderMenuSlider(menuData, currentDay) {
-            let sliderHtml = `
-                <div class="menu-slider-container">
-                    <div class="menu-slider-header">
-                        <h3>🍽️ Меню на неделю</h3>
-                        <div class="slider-controls">
-                            <button class="slider-btn" id="slider-prev" ${currentDay <= 1 ? 'disabled' : ''}>←</button>
-                            <span class="day-indicator">День ${currentDay} из 7</span>
-                            <button class="slider-btn" id="slider-next" ${currentDay >= 7 ? 'disabled' : ''}>→</button>
-                        </div>
-                    </div>
-                    <div class="menu-slider">
-                        <div class="menu-slider-track" id="menu-slider-track">
-            `;
-            
-            for (let i = 1; i <= 7; i++) {
-                const dayMenu = menuData.days[i];
-                if (!dayMenu) continue;
-                
-                let mealsHtml = '';
-                for (const [meal, description] of Object.entries(dayMenu)) {
-                    mealsHtml += `
-                        <div class="menu-day-meal">
-                            <strong>${meal}</strong>
-                            <span>${description}</span>
-                        </div>
-                    `;
-                }
-                
-                sliderHtml += `
-                    <div class="menu-day-card" data-day="${i}">
-                        <div class="menu-day-header">День ${i}</div>
-                        <div class="menu-day-content">
-                            ${mealsHtml}
-                        </div>
-                    </div>
-                `;
-            }
-            
-            sliderHtml += `
-                        </div>
-                    </div>
-                    <div class="day-dots" id="day-dots"></div>
-                </div>
-            `;
-            
-            document.getElementById('meal-result').innerHTML = sliderHtml;
-            
-            // Прокручиваем к выбранному дню
-            const track = document.getElementById('menu-slider-track');
-            if (track) {
-                const cards = track.querySelectorAll('.menu-day-card');
-                const targetCard = cards[currentDay - 1];
-                if (targetCard) {
-                    targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-                }
-            }
-            
-            // Добавляем обработчики для кнопок навигации
-            const prevBtn = document.getElementById('slider-prev');
-            const nextBtn = document document.getElementById('slider-next');
-            
-            if (prevBtn) {
-                prevBtn.addEventListener('click', () => {
-                    if (currentDay > 1) {
-                        renderMenuSlider(menuData, currentDay - 1);
-                    }
-                });
-            }
-            if (nextBtn) {
-                nextBtn.addEventListener('click', () => {
-                    if (currentDay < 7) {
-                        renderMenuSlider(menuData, currentDay + 1);
-                    }
-                });
-            }
-            
-            // Добавляем точки-индикаторы
-            const dotsContainer = document.getElementById('day-dots');
-            if (dotsContainer) {
-                let dotsHtml = '';
-                for (let i = 1; i <= 7; i++) {
-                    dotsHtml += `<div class="day-dot ${i === currentDay ? 'active' : ''}" data-day="${i}">${i}</div>`;
-                }
-                dotsContainer.innerHTML = dotsHtml;
-                dotsContainer.querySelectorAll('.day-dot').forEach(dot => {
-                    dot.addEventListener('click', () => {
-                        const day = parseInt(dot.dataset.day);
-                        renderMenuSlider(menuData, day);
-                    });
-                });
-            }
-        }
-
-        function getAgeGroup(age) {
-            if (age <= 35) return 'young';
-            if (age <= 45) return 'perimenopause';
-            return 'menopause';
-        }
-
-        function getCyclePhase(dayInCycle, cycleLength) {
-            const ovulationDay = Math.floor(cycleLength / 2);
-            if (dayInCycle <= 7) return 'menstrual';
-            if (dayInCycle <= ovulationDay - 2) return 'follicular';
-            if (dayInCycle <= ovulationDay + 2) return 'ovulatory';
-            return 'luteal';
-        }
-
-        function getPhaseName(phase) {
-            const names = {
-                menstrual: '🩸 Менструальная фаза (дни 1–5)',
-                follicular: '🌱 Фолликулярная фаза (дни 6–14)',
-                ovulatory: '🥚 Овуляция (дни 14–16)',
-                luteal: '🍂 Лютеиновая фаза / ПМС (дни 17–28)'
-            };
-            return names[phase] || phase;
-        }
-
-        // Меню для небеременных (стандартное)
-        function getMenuYoung(phase) {
-            const menus = {
-                menstrual: { kcal: '1200–1300 ккал', meals: { 'Завтрак': 'Овсянка на воде (30 г) + 100 г черники + ½ ч.л. мёда', 'Обед': '150 г говяжьей печени с луком + 150 г гречки + 100 г тушёной капусты', 'Полдник': '120 г греческого йогурта', 'Ужин': '150 г запечённой скумбрии + 150 г цветной капусты на пару' }, advice: 'Акцент на железо, магний, тёплую еду.' },
-                follicular: { kcal: '1400–1500 ккал', meals: { 'Завтрак': 'Овсянка на молоке 1,5% (40 г) с ягодами и 1 ч.л. мёда', 'Обед': '150 г куриного филе + 150 г киноа + 200 г тушёных овощей + 1 ст.л. масла', 'Полдник': '150 г греческого йогурта + горсть ягод', 'Ужин': '150 г красной рыбы (форель/лосось) + 200 г спаржи на пару' }, advice: 'Акцент на белок, витамины группы B, клетчатку.' },
-                ovulatory: { kcal: '1400–1500 ккал', meals: { 'Завтрак': '2 яйца пашот + 1 тост из цельнозернового хлеба + 50 г авокадо + 1 апельсин', 'Обед': '150 г салата из киноа с овощами и фетой', 'Полдник': '1 яблоко + 20 г грецких орехов', 'Ужин': '150 г запечённой куриной грудки + 250 г запечённых овощей' }, advice: 'Пик энергии, можно чуть больше калорий и углеводов.' },
-                luteal: { kcal: '1200–1300 ккал', meals: { 'Завтрак': 'Льняная каша на воде (20 г) с 100 г черники', 'Обед': '150 г куриного филе + 150 г тушёной капусты + 200 г брокколи на пару + 1 ч.л. масла', 'Полдник': '150 г греческого йогурта', 'Ужин': '150 г запечённой скумбрии + 200 г стручковой фасоли' }, advice: 'Акцент на белок, клетчатку, магний, контроль тяги к сладкому.' }
-            };
-            return menus[phase] || menus.luteal;
-        }
-
-        function getMenuPerimenopause(phase) {
-            const menus = {
-                menstrual: { kcal: '1200–1300 ккал', meals: { 'Завтрак': 'Овсянка на воде (30 г) + 100 г черники (без мёда)', 'Обед': '150 г говяжьей печени + 150 г гречки + 150 г тушёной капусты', 'Полдник': '150 г греческого йогурта 2%', 'Ужин': '150 г запечённой скумбрии + 200 г цветной капусты на пару' }, advice: 'Больше белка, меньше простых углеводов.' },
-                follicular: { kcal: '1350–1450 ккал', meals: { 'Завтрак': 'Овсянка на воде (40 г) с ягодами и 1 ч.л. семян льна', 'Обед': '150 г куриного филе + 150 г киноа + 200 г тушёных овощей + 1 ст.л. масла', 'Полдник': '150 г греческого йогурта + 20 г орехов', 'Ужин': '150 г красной рыбы + 200 г спаржи на пару' }, advice: 'Белок 70–75 г/день. Сложные углеводы.' },
-                ovulatory: { kcal: '1350–1450 ккал', meals: { 'Завтрак': '2 яйца пашот + 1 тост + 50 г авокадо', 'Обед': '150 г салата с тунцом (100 г тунца, яйцо, огурец, листья салата, 1 ч.л. масла)', 'Полдник': '1 яблоко + 20 г грецких орехов', 'Ужин': '150 г запечённой куриной грудки + 250 г запечённых овощей' }, advice: 'Омега-3 важны. Белок в каждый приём.' },
-                luteal: { kcal: '1150–1250 ккал', meals: { 'Завтрак': 'Льняная каша на воде (20 г) с 100 г черники', 'Обед': '150 г куриного филе + 150 г тушёной капусты + 200 г брокколи на пару', 'Полдник': '150 г греческого йогурта', 'Ужин': '150 г белой рыбы + 200 г стручковой фасоли' }, advice: 'Магний против ПМС. Контроль тяги к сладкому.' }
-            };
-            return menus[phase] || menus.luteal;
-        }
-
-        function getMenuMenopause(phase) {
-            const menus = {
-                menstrual: { kcal: '1200–1300 ккал', meals: { 'Завтрак': '150 г творога 5% + 30 г ягод + 1 ст.л. семян льна', 'Обед': '150 г запечённой курицы + 100 г киноа + 250 г брокколи на пару + 1 ст.л. масла', 'Полдник': '1 яблоко + 20 г грецких орехов', 'Ужин': '150 г белой рыбы + 200 г салата из овощей' }, advice: 'Белок 80 г, кальций 1200 мг, омега-3.' },
-                follicular: { kcal: '1300–1400 ккал', meals: { 'Завтрак': 'Омлет из 2 яиц с овощами + тост', 'Обед': '150 г индейки + 150 г гречки + 250 г тушёных овощей + 1 ст.л. масла', 'Полдник': '150 г греческого йогурта + 20 г орехов', 'Ужин': '150 г красной рыбы + 200 г спаржи на пару' }, advice: 'Белок 85 г, кальций + D3.' },
-                ovulatory: { kcal: '1300–1400 ккал', meals: { 'Завтрак': '150 г творога 5% с ягодами и 1 ч.л. семян чиа', 'Обед': '150 г салата с тунцом, авокадо и оливками', 'Полдник': '1 груша + 20 г миндаля', 'Ужин': '150 г запечённой куриной грудки + 250 г цветной капусты' }, advice: 'Омега-3 (рыба 2–3 раза в неделю).' },
-                luteal: { kcal: '1200–1300 ккал', meals: { 'Завтрак': 'Льняная каша на воде (20 г) + 100 г черники и 1 ст.л. семян льна', 'Обед': '150 г куриного филе + 150 г тушёной капусты + 200 г брокколи', 'Полдник': '150 г греческого йогурта', 'Ужин': '150 г белой рыбы + 200 г стручковой фасоли' }, advice: 'Магний, кальций, клетчатка 35 г.' }
-            };
-            return menus[phase] || menus.luteal;
-        }
-
-        function renderStandardMenu(menu, phaseName, dayInCycle, groupNote) {
-            let mealsHtml = '<h3>🍽️ Ваше меню на сегодня</h3>';
-            mealsHtml += '<table class="meal-table"><thead><tr><th>Приём пищи</th><th>Блюдо</th></tr></thead><tbody>';
-            for (const [meal, description] of Object.entries(menu.meals)) {
-                mealsHtml += `<tr><td style="font-weight: 500;">${meal}</td><td>${description}</td></tr>`;
-            }
-            mealsHtml += '</tbody></table>';
-            mealsHtml += '<div class="calorie-note"><i class="fas fa-info-circle"></i> 💧 Не забывайте пить 1,5–2 литра воды в день. Последний приём пищи — за 3 часа до сна.</div>';
-            
-            document.getElementById('cycle-result').style.display = 'block';
-            document.getElementById('cycle-result').innerHTML = `
-                <div class="phase-badge phase-${phaseName.toLowerCase().includes('менструальная') ? 'menstrual' : (phaseName.toLowerCase().includes('фолликулярная') ? 'follicular' : (phaseName.toLowerCase().includes('овуляция') ? 'ovulatory' : 'luteal'))}">${phaseName}</div>
-                <p><strong>📅 День цикла:</strong> ${dayInCycle}</p>
-                <p><strong>👤 Возрастная группа:</strong> ${groupNote}</p>
-                <p><strong>💡 Рекомендация:</strong> ${menu.advice}</p>
-                <p><strong>🔥 Калорийность дня:</strong> ${menu.kcal}</p>
-            `;
-            document.getElementById('meal-result').style.display = 'block';
-            document.getElementById('meal-result').innerHTML = mealsHtml;
-        }
-
-        function calculateCycleAndMeal() {
-            const lastPeriodStart = document.getElementById('last-period-start').value;
-            const cycleLength = parseInt(document.getElementById('cycle-length').value);
-            const age = parseInt(document.getElementById('age').value);
-            const isPregnant = document.getElementById('is-pregnant').value;
-            
-            if (!lastPeriodStart) { alert('Пожалуйста, выберите дату начала последних месячных'); return; }
-            if (!age) { alert('Пожалуйста, укажите возраст в разделе "Мои замеры"'); return; }
-            
-            localStorage.setItem('cycle_last_period', lastPeriodStart);
-            localStorage.setItem('cycle_length', cycleLength);
-            localStorage.setItem('is_pregnant', isPregnant);
-            
-            if (isPregnant !== 'no') {
-                const trimester = document.getElementById('trimester').value;
-                const hemoglobin = document.getElementById('hemoglobin').value;
-                const gsd = document.getElementById('gsd').value;
-                localStorage.setItem('trimester', trimester);
-                localStorage.setItem('hemoglobin', hemoglobin);
-                localStorage.setItem('gsd', gsd);
-                
-                const menuData = getPregnancyMenu(trimester, hemoglobin, gsd);
-                const today = new Date();
-                const dayNum = (today.getDate() % 7) + 1;
-                
-                let conditionText = '';
-                if (gsd === 'yes') conditionText = 'Гестационный сахарный диабет';
-                else if (hemoglobin === 'low') conditionText = 'Низкий гемоглобин (анемия)';
-                else conditionText = `${trimester === '1' ? '1-й' : (trimester === '2' ? '2-й' : '3-й')} триместр`;
-                
-                document.getElementById('cycle-result').style.display = 'block';
-                document.getElementById('cycle-result').innerHTML = `
-                    <div class="pregnancy-badge">🤰 Беременность — ${conditionText}</div>
-                    <p><strong>👤 Возрастная группа:</strong> ${age} лет</p>
-                    <p><strong>💡 Рекомендация:</strong> Питание для беременных. Исключить сырые продукты, алкоголь. Обязательно 2-2,5 л жидкости.</p>
-                `;
-                document.getElementById('meal-result').style.display = 'block';
-                renderMenuSlider(menuData, dayNum);
-                return;
-            }
-            
-            // Не беременна — стандартный расчёт
-            const startDate = new Date(lastPeriodStart);
-            const today = new Date();
-            const daysSinceStart = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
-            const dayInCycle = (daysSinceStart % cycleLength) + 1;
-            const phase = getCyclePhase(dayInCycle, cycleLength);
-            const phaseName = getPhaseName(phase);
-            const ageGroup = getAgeGroup(age);
-            
-            let menu, groupNote;
-            switch(ageGroup) {
-                case 'young': menu = getMenuYoung(phase); groupNote = '18–35 лет (репродуктивный возраст)'; break;
-                case 'perimenopause': menu = getMenuPerimenopause(phase); groupNote = '36–45 лет (перименопауза)'; break;
-                default: menu = getMenuMenopause(phase); groupNote = '46+ лет (менопауза)'; break;
-            }
-            
-            renderStandardMenu(menu, phaseName, dayInCycle, groupNote);
-        }
-    </script>
+    document.getElementById('save-measurements').onclick = saveMeasurements;
+    document.getElementById('save-ferritin').onclick = () => renderMenus();
+    document.getElementById('save-menu-choice').onclick = saveMenuToCookbook;
+    document.querySelectorAll('.goal-btn').forEach(btn => btn.onclick = () => { document.querySelectorAll('.goal-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); currentGoal = btn.dataset.goal; saveMeasurements(); });
+    onAuthStateChanged(auth, (user) => { currentUser = user; if(user) { document.getElementById('auth-check').style.display='none'; document.getElementById('dashboard-content').style.display='block'; renderMenus(); } else { document.getElementById('auth-check').innerHTML='<p>Войдите на главной странице</p>'; } });
+</script>
 </body>
 </html>
