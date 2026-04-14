@@ -15,11 +15,11 @@
         .measure-item { text-align: center; padding: 16px; background: #faf8f5; border-radius: 20px; }
         .measure-item label { display: block; font-size: 0.8rem; color: #999; margin-bottom: 8px; }
         .measure-item input { width: 100%; padding: 12px; border: 1px solid #e0d6c8; border-radius: 40px; font-size: 1rem; text-align: center; }
-        .btn-save { background: #1a1a2e; color: white; padding: 12px 28px; border: none; border-radius: 40px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; }
-        .btn-outline { background: transparent; border: 1.5px solid #1a1a2e; color: #1a1a2e; padding: 10px 24px; border-radius: 40px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
-        select, .cycle-field input, .ferritin-field input { width: 100%; max-width: 280px; padding: 12px; border: 1px solid #e0d6c8; border-radius: 40px; margin: 10px 0; }
+        .btn-save { background: #1a1a2e; color: white; padding: 12px 28px; border: none; border-radius: 40px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; font-family: 'Inter', sans-serif; }
+        .btn-outline { background: transparent; border: 1.5px solid #1a1a2e; color: #1a1a2e; padding: 10px 24px; border-radius: 40px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif; }
+        select, .cycle-field input, .ferritin-field input { width: 100%; max-width: 280px; padding: 12px; border: 1px solid #e0d6c8; border-radius: 40px; margin: 10px 0; font-family: 'Inter', sans-serif; }
         .goal-field { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0; }
-        .goal-btn { background: #f0ede8; border: none; padding: 10px 24px; border-radius: 40px; cursor: pointer; }
+        .goal-btn { background: #f0ede8; border: none; padding: 10px 24px; border-radius: 40px; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; }
         .goal-btn.active { background: #1a1a2e; color: white; }
         .calorie-result, .cycle-result { background: #e8f0e8; padding: 20px; border-radius: 20px; margin: 20px 0; }
         .menu-options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin: 24px 0; }
@@ -29,9 +29,12 @@
         .menu-desc { font-size: 0.8rem; color: #c4a87c; margin-bottom: 16px; }
         .meal-detail { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin: 20px 0; }
         .meal-detail-item { background: white; padding: 16px; border-radius: 20px; }
-        .recipe-link { margin-top: 10px; font-size: 0.8rem; color: #c4a87c; display: inline-block; }
+        .recipe-link { margin-top: 10px; font-size: 0.8rem; color: #c4a87c; display: inline-block; text-decoration: none; }
         .back-link { display: inline-block; margin-bottom: 24px; color: #1a1a2e; text-decoration: none; font-weight: 500; }
         .info-note { background: #fff8e8; padding: 16px; border-radius: 20px; margin-top: 20px; font-size: 0.85rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #faf8f5; font-weight: 600; }
     </style>
 </head>
 <body>
@@ -40,9 +43,9 @@
     <div id="auth-check" style="text-align:center; padding:40px;">Загрузка...</div>
     <div id="dashboard-content" style="display:none;">
 
-        <!-- Замеры -->
+        <!-- Замеры и цель -->
         <div class="dashboard-card">
-            <h2>📏 Мои замеры</h2>
+            <h2>📏 Мои параметры</h2>
             <div class="measurement-grid">
                 <div class="measure-item"><label>Вес (кг)</label><input type="number" id="weight" step="0.1" placeholder="55.5"></div>
                 <div class="measure-item"><label>Рост (см)</label><input type="number" id="height" step="1" placeholder="165"></div>
@@ -53,40 +56,43 @@
                 <button class="goal-btn active" data-goal="maintain">⚖️ Поддержание</button>
                 <button class="goal-btn" data-goal="gain">💪 Набор массы</button>
             </div>
-            <button id="save-measurements" class="btn-save"><i class="fas fa-save"></i> Сохранить</button>
+            <button id="save-measurements" class="btn-save"><i class="fas fa-save"></i> Сохранить параметры</button>
             <div id="calorie-result" class="calorie-result" style="display:none;"></div>
-        </div>
-
-        <!-- Цикл -->
-        <div class="dashboard-card">
-            <h2>🌸 Калькулятор цикла</h2>
-            <div class="cycle-field"><label>📅 Первый день последних месячных:</label><input type="date" id="last-period-start"></div>
-            <div class="cycle-field"><label>⏱️ Средняя длина цикла:</label><input type="number" id="cycle-length" value="28" min="21" max="35"></div>
-            <button id="calculate-cycle" class="btn-save"><i class="fas fa-chart-line"></i> Определить фазу</button>
-            <div id="cycle-result" class="cycle-result" style="display:none;"></div>
         </div>
 
         <!-- Ферритин -->
         <div class="dashboard-card">
             <h2>🩸 Уровень ферритина</h2>
-            <div class="ferritin-field"><label>Ферритин (нг/мл):</label><input type="number" id="ferritin" step="1" placeholder="например, 25"></div>
-            <button id="save-ferritin" class="btn-save"><i class="fas fa-database"></i> Сохранить</button>
+            <div class="ferritin-field">
+                <label>Ферритин (нг/мл):</label>
+                <input type="number" id="ferritin" step="1" placeholder="например, 25">
+            </div>
+            <button id="save-ferritin" class="btn-save"><i class="fas fa-database"></i> Сохранить ферритин</button>
         </div>
 
         <!-- Меню -->
         <div class="dashboard-card" id="menu-block" style="display:none;">
             <h2>🍽️ Меню на сегодня</h2>
-            <p>Подобрано под фазу <span id="current-phase-name"></span>, ферритин <span id="ferritin-status"></span>, цель <span id="goal-name"></span> — <span id="calories-range"></span> ккал</p>
+            <p><span id="calories-range"></span> ккал · ферритин: <span id="ferritin-status"></span> · цель: <span id="goal-name"></span></p>
             <div id="menu-options" class="menu-options-grid"></div>
             <div id="selected-menu" class="selected-menu-result" style="display:none;">
-                <h3>✅ Вы выбрали меню:</h3>
+                <h3>✅ Ваше выбранное меню</h3>
                 <div id="selected-menu-details"></div>
                 <button id="save-menu-choice" class="btn-save"><i class="fas fa-heart"></i> Сохранить в мою кулинарную книгу</button>
             </div>
         </div>
 
-        <div class="dashboard-card"><h2>📊 История замеров</h2><div id="history-table"></div></div>
-        <div class="dashboard-card"><h2>🔔 Напоминания</h2><button id="enable-notifications" class="btn-outline"><i class="fas fa-bell"></i> Включить</button></div>
+        <!-- История замеров -->
+        <div class="dashboard-card">
+            <h2>📊 История замеров</h2>
+            <div id="history-table"></div>
+        </div>
+
+        <!-- Напоминания -->
+        <div class="dashboard-card">
+            <h2>🔔 Напоминания</h2>
+            <button id="enable-notifications" class="btn-outline"><i class="fas fa-bell"></i> Включить уведомления</button>
+        </div>
     </div>
 </div>
 
@@ -95,6 +101,7 @@
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
     import { getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
 
+    // Firebase
     const firebaseConfig = {
         apiKey: "AIzaSyArSzPNl80_orGdu5B8y8T_0ksIFR0xdaQ",
         authDomain: "valeriyaradkova-d61db.firebaseapp.com",
@@ -106,132 +113,197 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    let currentUser = null;
-    let selectedMenu = null;
-    let currentCalories = 0;
-    let currentGoal = "maintain";
-    let currentFerritinLevel = null;
 
-    // ---------- БАЗА МЕНЮ (полностью из ваших таблиц) ----------
-    const ferritinMenus = {
-        low: {  // низкий ферритин (<50)
-            1200: { name: "1200–1300 ккал", menus: [
-                { id: "low_1200_d1", title: "🩸 Меню, день 1", desc: "Насыщено железом и витамином С", meals: { breakfast: "Омлет из 2 яиц + 50 г говядины + шпинат (50 г) + перец (50 г)", lunch: "120 г гречки + 100 г куриной печени + салат из квашеной капусты (100 г)", dinner: "130 г скумбрии + 200 г цветной капусты + томаты (100 г)", snack: "150 мл кефира 1%" } },
-                { id: "low_1200_d2", title: "🩸 Меню, день 2", desc: "Чечевица и печень", meals: { breakfast: "2 яйца пашот + 100 г говядины + руккола (50 г)", lunch: "150 г чечевичного супа + 100 г курицы", dinner: "150 г куриной печени + 200 г брокколи + огурец (100 г)", snack: "1 зелёное яблоко" } }
+    let currentUser = null;
+    let currentGoal = "maintain";
+    let selectedMenuObj = null;
+
+    // ---------- БАЗА МЕНЮ (ВАШИ ТАБЛИЦЫ) ----------
+    const menusDB = {
+        low: {
+            1200: { range: "1200–1300", menus: [
+                { id: "low_1200_1", title: "🩸 Восстанавливающее меню, день 1", desc: "Насыщено железом и витамином С", meals: { breakfast: "Омлет из 2 яиц + 50 г говядины + шпинат (50 г) + перец (50 г)", lunch: "120 г гречки + 100 г куриной печени + салат из квашеной капусты (100 г)", dinner: "130 г скумбрии + 200 г цветной капусты + томаты (100 г)", snack: "150 мл кефира 1%" } },
+                { id: "low_1200_2", title: "🩸 Восстанавливающее меню, день 2", desc: "Чечевица и печень", meals: { breakfast: "2 яйца пашот + 100 г говядины + руккола (50 г)", lunch: "150 г чечевичного супа + 100 г курицы", dinner: "150 г куриной печени + 200 г брокколи + огурец (100 г)", snack: "1 зелёное яблоко" } }
             ] },
-            1350: { name: "1300–1400 ккал", menus: [
-                { id: "low_1350_d1", title: "🩸 Меню, день 1", desc: "+ яйцо и больше овощей", meals: { breakfast: "Омлет из 2 яиц + 70 г говядины + шпинат (70 г) + перец (70 г)", lunch: "150 г гречки + 120 г печени + капуста (150 г)", dinner: "170 г скумбрии + 200 г цветной капусты + томаты (120 г)", snack: "150 мл кефира + ягоды" } },
-                { id: "low_1350_d2", title: "🩸 Меню, день 2", desc: "С апельсином и орехами", meals: { breakfast: "2 яйца пашот + 120 г говядины + руккола (80 г)", lunch: "170 г чечевичного супа + 120 г курицы", dinner: "170 г куриной печени + 200 г брокколи + огурец (150 г)", snack: "1 апельсин + 10 г орехов" } }
+            1350: { range: "1300–1400", menus: [
+                { id: "low_1350_1", title: "🩸 Энергия + железо, день 1", desc: "+ яйцо и больше овощей", meals: { breakfast: "Омлет из 2 яиц + 70 г говядины + шпинат (70 г) + перец (70 г)", lunch: "150 г гречки + 120 г печени + капуста (150 г)", dinner: "170 г скумбрии + 200 г цветной капусты + томаты (120 г)", snack: "150 мл кефира + ягоды" } },
+                { id: "low_1350_2", title: "🩸 Энергия + железо, день 2", desc: "С апельсином и орехами", meals: { breakfast: "2 яйца пашот + 120 г говядины + руккола (80 г)", lunch: "170 г чечевичного супа + 120 г курицы", dinner: "170 г куриной печени + 200 г брокколи + огурец (150 г)", snack: "1 апельсин + 10 г орехов" } }
             ] },
-            1450: { name: "1400–1500 ккал", menus: [
-                { id: "low_1450_d1", title: "🩸 Меню, день 1", desc: "+ творог и черника", meals: { breakfast: "Омлет из 2 яиц + 70 г говядины + шпинат (80 г) + перец (80 г)", lunch: "170 г гречки + 120 г печени + капуста (150 г)", dinner: "170 г скумбрии + 200 г цветной капусты + томаты (120 г)", snack: "150 мл кефира + 30 г черники" } },
-                { id: "low_1450_d2", title: "🩸 Меню, день 2", desc: "С творогом на завтрак", meals: { breakfast: "150 г творога 2% + 70 г черники + орехи", lunch: "170 г гречки + 150 г языка + капуста (170 г)", dinner: "170 г скумбрии + 200 г фасоли + баклажаны (150 г)", snack: "1 апельсин + 10 г миндаля" } }
+            1450: { range: "1400–1500", menus: [
+                { id: "low_1450_1", title: "🩸 Плюс творог, день 1", desc: "+ творог и черника", meals: { breakfast: "Омлет из 2 яиц + 70 г говядины + шпинат (80 г) + перец (80 г)", lunch: "170 г гречки + 120 г печени + капуста (150 г)", dinner: "170 г скумбрии + 200 г цветной капусты + томаты (120 г)", snack: "150 мл кефира + 30 г черники" } },
+                { id: "low_1450_2", title: "🩸 Плюс творог, день 2", desc: "С творогом на завтрак", meals: { breakfast: "150 г творога 2% + 70 г черники + орехи", lunch: "170 г гречки + 150 г языка + капуста (170 г)", dinner: "170 г скумбрии + 200 г фасоли + баклажаны (150 г)", snack: "1 апельсин + 10 г миндаля" } }
             ] },
-            1550: { name: "1500–1600 ккал", menus: [
-                { id: "low_1550_d1", title: "🩸 Меню, день 1", desc: "3 яйца, больше крупы", meals: { breakfast: "Омлет из 3 яиц + 80 г говядины + шпинат (100 г)", lunch: "180 г гречки + 150 г печени + капуста (180 г)", dinner: "180 г скумбрии + 220 г цветной капусты + томаты (150 г)", snack: "200 мл кефира + 50 г черники" } },
-                { id: "low_1550_d2", title: "🩸 Меню, день 2", desc: "С фруктами", meals: { breakfast: "2 яйца пашот + 150 г говядины + руккола (100 г)", lunch: "180 г чечевичного супа + 150 г курицы", dinner: "180 г куриной печени + 220 г брокколи + огурец (150 г)", snack: "1 яблоко + 1 апельсин + 15 г орехов" } }
+            1550: { range: "1500–1600", menus: [
+                { id: "low_1550_1", title: "🩸 Максимум белка, день 1", desc: "3 яйца, больше крупы", meals: { breakfast: "Омлет из 3 яиц + 80 г говядины + шпинат (100 г)", lunch: "180 г гречки + 150 г печени + капуста (180 г)", dinner: "180 г скумбрии + 220 г цветной капусты + томаты (150 г)", snack: "200 мл кефира + 50 г черники" } },
+                { id: "low_1550_2", title: "🩸 Максимум белка, день 2", desc: "С фруктами", meals: { breakfast: "2 яйца пашот + 150 г говядины + руккола (100 г)", lunch: "180 г чечевичного супа + 150 г курицы", dinner: "180 г куриной печени + 220 г брокколи + огурец (150 г)", snack: "1 яблоко + 1 апельсин + 15 г орехов" } }
             ] },
-            1650: { name: "1600–1700 ккал", menus: [
-                { id: "low_1650_d1", title: "🩸 Меню, день 1", desc: "2 тоста, двойная порция овощей", meals: { breakfast: "Омлет из 3 яиц + 100 г говядины + шпинат (120 г) + 2 тоста", lunch: "200 г гречки + 180 г печени + капуста (200 г)", dinner: "200 г скумбрии + 250 г цветной капусты + томаты (150 г)", snack: "200 мл кефира + 70 г черники + орехи" } },
-                { id: "low_1650_d2", title: "🩸 Меню, день 2", desc: "С грушей и киви", meals: { breakfast: "200 г творога 2% + 100 г черники + орехи", lunch: "200 г гречки + 200 г языка + капуста (200 г)", dinner: "200 г скумбрии + 250 г фасоли + баклажаны (180 г)", snack: "1 апельсин + 1 киви + 15 г орехов" } }
+            1650: { range: "1600–1700", menus: [
+                { id: "low_1650_1", title: "🩸 Усиленное меню, день 1", desc: "2 тоста, двойная порция овощей", meals: { breakfast: "Омлет из 3 яиц + 100 г говядины + шпинат (120 г) + 2 тоста", lunch: "200 г гречки + 180 г печени + капуста (200 г)", dinner: "200 г скумбрии + 250 г цветной капусты + томаты (150 г)", snack: "200 мл кефира + 70 г черники + орехи" } },
+                { id: "low_1650_2", title: "🩸 Усиленное меню, день 2", desc: "С грушей и киви", meals: { breakfast: "200 г творога 2% + 100 г черники + орехи", lunch: "200 г гречки + 200 г языка + капуста (200 г)", dinner: "200 г скумбрии + 250 г фасоли + баклажаны (180 г)", snack: "1 апельсин + 1 киви + 15 г орехов" } }
             ] },
-            1750: { name: "1700–1800 ккал", menus: [
-                { id: "low_1750_d1", title: "🩸 Меню, день 1", desc: "Максимум овощей", meals: { breakfast: "Омлет из 3 яиц + 120 г говядины + шпинат (150 г) + 2 тоста", lunch: "220 г гречки + 200 г печени + капуста (220 г)", dinner: "220 г скумбрии + 300 г цветной капусты + томаты (180 г)", snack: "200 мл кефира + 80 г черники + яблоко" } },
-                { id: "low_1750_d2", title: "🩸 Меню, день 2", desc: "Двойной перекус", meals: { breakfast: "2 яйца пашот + 200 г говядины + руккола (150 г)", lunch: "220 г чечевичного супа + 200 г курицы", dinner: "220 г куриной печени + 300 г брокколи + огурец (200 г)", snack: "1 яблоко + 1 апельсин + 1 груша + 20 г орехов" } }
+            1750: { range: "1700–1800", menus: [
+                { id: "low_1750_1", title: "🩸 Интенсивное, день 1", desc: "Максимум овощей", meals: { breakfast: "Омлет из 3 яиц + 120 г говядины + шпинат (150 г) + 2 тоста", lunch: "220 г гречки + 200 г печени + капуста (220 г)", dinner: "220 г скумбрии + 300 г цветной капусты + томаты (180 г)", snack: "200 мл кефира + 80 г черники + яблоко" } },
+                { id: "low_1750_2", title: "🩸 Интенсивное, день 2", desc: "Двойной перекус", meals: { breakfast: "2 яйца пашот + 200 г говядины + руккола (150 г)", lunch: "220 г чечевичного супа + 200 г курицы", dinner: "220 г куриной печени + 300 г брокколи + огурец (200 г)", snack: "1 яблоко + 1 апельсин + 1 груша + 20 г орехов" } }
             ] },
-            1850: { name: "1800–1900 ккал", menus: [
-                { id: "low_1850_d1", title: "🩸 Меню, день 1", desc: "4 яйца, авокадо", meals: { breakfast: "Омлет из 4 яиц + 150 г говядины + шпинат (180 г) + авокадо (50 г)", lunch: "250 g гречки + 220 г печени + капуста (250 г)", dinner: "250 г скумбрии + 350 г цветной капусты + томаты (200 г)", snack: "250 мл кефира + 100 г черники + яблоко + груша" } },
-                { id: "low_1850_d2", title: "🩸 Меню, день 2", desc: "С бананом и маслом", meals: { breakfast: "250 г творога 2% + 150 г черники + 25 г орехов + тост", lunch: "250 г гречки + 250 г языка + капуста (250 г)", dinner: "250 г скумбрии + 350 г фасоли + баклажаны (250 г)", snack: "1 апельсин + 1 банан + 25 г орехов" } }
+            1850: { range: "1800–1900", menus: [
+                { id: "low_1850_1", title: "🩸 Высокая активность, день 1", desc: "4 яйца, авокадо", meals: { breakfast: "Омлет из 4 яиц + 150 г говядины + шпинат (180 г) + авокадо (50 г)", lunch: "250 г гречки + 220 г печени + капуста (250 г)", dinner: "250 г скумбрии + 350 г цветной капусты + томаты (200 г)", snack: "250 мл кефира + 100 г черники + яблоко + груша" } },
+                { id: "low_1850_2", title: "🩸 Высокая активность, день 2", desc: "С бананом и маслом", meals: { breakfast: "250 г творога 2% + 150 г черники + 25 г орехов + тост", lunch: "250 г гречки + 250 г языка + капуста (250 г)", dinner: "250 г скумбрии + 350 г фасоли + баклажаны (250 г)", snack: "1 апельсин + 1 банан + 25 г орехов" } }
             ] },
-            1950: { name: "1900–2000 ккал", menus: [
-                { id: "low_1950_d1", title: "🩸 Меню, день 1", desc: "Максимальная порция", meals: { breakfast: "Омлет из 4 яиц + 180 г говядины + шпинат (200 г) + авокадо (70 г)", lunch: "280 г гречки + 250 г печени + капуста (280 г)", dinner: "280 г скумбрии + 400 г цветной капусты + томаты (250 г)", snack: "250 мл кефира + 120 г черники + яблоко + груша + банан" } },
-                { id: "low_1950_d2", title: "🩸 Меню, день 2", desc: "Суп-пюре и фрукты", meals: { breakfast: "2 яйца пашот + 280 г говядины + руккола (200 г) + авокадо", lunch: "280 г чечевичного супа + 280 г курицы", dinner: "280 г куриной печени + 400 г брокколи + огурец (280 г)", snack: "1 яблоко + 1 апельсин + 1 груша + 1 банан + 30 г орехов" } }
+            1950: { range: "1900–2000", menus: [
+                { id: "low_1950_1", title: "🩸 Максимальная порция, день 1", desc: "Сытное меню", meals: { breakfast: "Омлет из 4 яиц + 180 г говядины + шпинат (200 г) + авокадо (70 г)", lunch: "280 г гречки + 250 г печени + капуста (280 г)", dinner: "280 г скумбрии + 400 г цветной капусты + томаты (250 г)", snack: "250 мл кефира + 120 г черники + яблоко + груша + банан" } },
+                { id: "low_1950_2", title: "🩸 Максимальная порция, день 2", desc: "Суп-пюре и фрукты", meals: { breakfast: "2 яйца пашот + 280 г говядины + руккола (200 г) + авокадо", lunch: "280 г чечевичного супа + 280 г курицы", dinner: "280 г куриной печени + 400 г брокколи + огурец (280 г)", snack: "1 яблоко + 1 апельсин + 1 груша + 1 банан + 30 г орехов" } }
             ] }
         },
-        normal: {  // нормальный ферритин (50–150) — упрощённое меню (пример)
-            1200: { name: "1200–1300 ккал", menus: [{ id: "norm_1200", title: "🌿 Базовое меню", desc: "Сбалансированное питание", meals: { breakfast: "Овсянка с ягодами + 2 яйца", lunch: "Гречка с курицей + овощи", dinner: "Рыба на пару + салат", snack: "Кефир" } }] },
-            1550: { name: "1500–1600 ккал", menus: [{ id: "norm_1550", title: "🌿 Энергичное меню", desc: "Для активности", meals: { breakfast: "Омлет с авокадо", lunch: "Рис с индейкой", dinner: "Запечённый лосось", snack: "Творог с ягодами" } }] }
+        normal: {
+            1550: { range: "1500–1600", menus: [{ id: "norm_1550", title: "🌿 Базовое меню", desc: "Сбалансированное питание", meals: { breakfast: "Овсянка с ягодами + 2 яйца", lunch: "Гречка с курицей + овощи", dinner: "Рыба на пару + салат", snack: "Кефир" } }] }
         }
     };
 
-    function getFerritinStatus(ferritin) {
-        if (ferritin === null || ferritin === "") return null;
-        if (ferritin < 50) return "low";
-        if (ferritin <= 150) return "normal";
+    function getFerritinStatus(value) {
+        if (!value && value !== 0) return null;
+        if (value < 50) return "low";
+        if (value <= 150) return "normal";
         return "high";
     }
 
     function getTargetCalories(weight, height, age, goal) {
         let bmr = 10 * weight + 6.25 * height - 5 * age - 161;
-        let tdee = bmr * 1.375; // средняя активность
+        let tdee = bmr * 1.375;
         if (goal === "loss") return Math.round(tdee * 0.85);
         if (goal === "gain") return Math.round(tdee * 1.1);
         return Math.round(tdee);
     }
 
-    function findNearestCalorieRange(calories) {
+    function findNearestRange(cal) {
         const ranges = [1200, 1350, 1450, 1550, 1650, 1750, 1850, 1950];
-        return ranges.reduce((prev, curr) => Math.abs(curr - calories) < Math.abs(prev - calories) ? curr : prev);
+        return ranges.reduce((a, b) => Math.abs(b - cal) < Math.abs(a - cal) ? b : a);
     }
 
     function renderMenus() {
         let weight = parseFloat(document.getElementById('weight').value);
         let height = parseFloat(document.getElementById('height').value);
         let age = parseFloat(document.getElementById('age').value);
-        if (!weight || !height || !age) { alert("Заполните вес, рост и возраст"); return; }
-        currentCalories = getTargetCalories(weight, height, age, currentGoal);
-        let calRange = findNearestCalorieRange(currentCalories);
+        if (!weight || !height || !age) {
+            alert("Заполните вес, рост и возраст в разделе «Мои параметры»");
+            return;
+        }
+        let calories = getTargetCalories(weight, height, age, currentGoal);
+        let range = findNearestRange(calories);
         let ferritinVal = document.getElementById('ferritin').value ? parseFloat(document.getElementById('ferritin').value) : null;
-        let ferritinStatus = getFerritinStatus(ferritinVal);
-        if (!ferritinStatus) ferritinStatus = "normal";
-        let menuData = ferritinMenus[ferritinStatus]?.[calRange];
-        if (!menuData) menuData = ferritinMenus.normal[calRange] || ferritinMenus.normal[1550];
-        document.getElementById('calories-range').innerText = menuData.name;
+        let ferritinStatus = getFerritinStatus(ferritinVal) || "normal";
+        let menuData = (ferritinStatus === "low" ? menusDB.low[range] : menusDB.normal[range]) || menusDB.low[1550];
+        if (!menuData) menuData = menusDB.low[1550];
+
+        document.getElementById('calories-range').innerText = menuData.range;
         document.getElementById('ferritin-status').innerText = ferritinStatus === "low" ? "низкий" : (ferritinStatus === "normal" ? "норма" : "высокий");
+        document.getElementById('goal-name').innerText = currentGoal === "loss" ? "похудение" : (currentGoal === "gain" ? "набор массы" : "поддержание");
+
         let container = document.getElementById('menu-options');
-        container.innerHTML = menuData.menus.map(m => `<div class="menu-option-card" data-menu='${JSON.stringify(m)}'><h4>${m.title}</h4><div class="menu-desc">${m.desc}</div><div class="meal-preview"><p>🌅 ${m.meals.breakfast.substring(0, 60)}...</p><p>☀️ ${m.meals.lunch.substring(0, 60)}...</p><p>🌙 ${m.meals.dinner.substring(0, 60)}...</p></div></div>`).join('');
+        container.innerHTML = menuData.menus.map(m => `
+            <div class="menu-option-card" data-menu='${JSON.stringify(m)}'>
+                <h4>${m.title}</h4>
+                <div class="menu-desc">${m.desc}</div>
+                <div class="meal-preview">
+                    <p>🌅 ${m.meals.breakfast.substring(0, 60)}…</p>
+                    <p>☀️ ${m.meals.lunch.substring(0, 60)}…</p>
+                    <p>🌙 ${m.meals.dinner.substring(0, 60)}…</p>
+                </div>
+            </div>
+        `).join('');
         document.querySelectorAll('.menu-option-card').forEach(card => {
-            card.onclick = () => { selectMenu(JSON.parse(card.dataset.menu)); };
+            card.onclick = () => {
+                document.querySelectorAll('.menu-option-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                selectedMenuObj = JSON.parse(card.dataset.menu);
+                displaySelectedMenu(selectedMenuObj);
+            };
         });
         document.getElementById('menu-block').style.display = 'block';
     }
 
-    function selectMenu(menu) {
-        selectedMenu = menu;
-        document.querySelectorAll('.menu-option-card').forEach(c => c.classList.remove('selected'));
+    function displaySelectedMenu(menu) {
         document.getElementById('selected-menu-details').innerHTML = `
             <div class="meal-detail">
-                <div class="meal-detail-item"><h5>🌅 Завтрак</h5><p>${menu.meals.breakfast}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.meals.breakfast.split('+')[0])}" target="_blank">Рецепт →</a></div>
-                <div class="meal-detail-item"><h5>☀️ Обед</h5><p>${menu.meals.lunch}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.meals.lunch.split('+')[0])}" target="_blank">Рецепт →</a></div>
-                <div class="meal-detail-item"><h5>🌙 Ужин</h5><p>${menu.meals.dinner}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.meals.dinner.split('+')[0])}" target="_blank">Рецепт →</a></div>
-                <div class="meal-detail-item"><h5>🍎 Перекус</h5><p>${menu.meals.snack}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.meals.snack.split(',')[0])}" target="_blank">Рецепт →</a></div>
-            </div>`;
+                <div class="meal-detail-item"><h5>🌅 Завтрак</h5><p>${menu.meals.breakfast}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.meals.breakfast.split('+')[0])}" target="_blank">Найти рецепт →</a></div>
+                <div class="meal-detail-item"><h5>☀️ Обед</h5><p>${menu.meals.lunch}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.meals.lunch.split('+')[0])}" target="_blank">Найти рецепт →</a></div>
+                <div class="meal-detail-item"><h5>🌙 Ужин</h5><p>${menu.meals.dinner}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.meals.dinner.split('+')[0])}" target="_blank">Найти рецепт →</a></div>
+                <div class="meal-detail-item"><h5>🍎 Перекус</h5><p>${menu.meals.snack}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.meals.snack.split(',')[0])}" target="_blank">Найти рецепт →</a></div>
+            </div>
+        `;
         document.getElementById('selected-menu').style.display = 'block';
     }
 
     async function saveMenuToCookbook() {
-        if (!currentUser) { alert("Войдите в аккаунт"); return; }
-        if (!selectedMenu) { alert("Выберите меню"); return; }
+        if (!currentUser) { alert("Войдите в аккаунт на главной странице"); return; }
+        if (!selectedMenuObj) { alert("Сначала выберите меню"); return; }
         try {
-            let userRef = doc(db, "users", currentUser.uid);
-            let userSnap = await getDoc(userRef);
-            let saved = userSnap.exists() ? (userSnap.data().savedMenus || []) : [];
-            if (saved.some(m => m.id === selectedMenu.id)) { alert("Уже сохранено"); return; }
-            await updateDoc(userRef, { savedMenus: arrayUnion({ ...selectedMenu, savedAt: new Date().toISOString() }) });
-            alert("Сохранено в кулинарную книгу!");
-        } catch(e) { if(e.code==='not-found') await setDoc(doc(db,"users",currentUser.uid),{savedMenus:[{...selectedMenu,savedAt:new Date().toISOString()}]}); else console.error(e); }
+            const userRef = doc(db, "users", currentUser.uid);
+            const userSnap = await getDoc(userRef);
+            const saved = userSnap.exists() ? (userSnap.data().savedMenus || []) : [];
+            if (saved.some(m => m.id === selectedMenuObj.id)) { alert("Это меню уже сохранено"); return; }
+            await updateDoc(userRef, { savedMenus: arrayUnion({ ...selectedMenuObj, savedAt: new Date().toISOString() }) });
+            alert("Меню сохранено в вашу кулинарную книгу!");
+        } catch (e) {
+            if (e.code === 'not-found') {
+                await setDoc(doc(db, "users", currentUser.uid), { savedMenus: [{ ...selectedMenuObj, savedAt: new Date().toISOString() }] });
+                alert("Меню сохранено!");
+            } else { console.error(e); alert("Ошибка сохранения"); }
+        }
     }
 
-    function saveMeasurements() {
-        localStorage.setItem('user_measurements', JSON.stringify({ weight: document.getElementById('weight').value, height: document.getElementById('height').value, age: document.getElementById('age').value, goal: currentGoal }));
+    function saveMeasurementsToLocal() {
+        let weight = document.getElementById('weight').value;
+        let height = document.getElementById('height').value;
+        let age = document.getElementById('age').value;
+        let measurements = JSON.parse(localStorage.getItem('user_measurements') || '[]');
+        measurements.push({ date: new Date().toISOString(), weight, height, age, goal: currentGoal });
+        localStorage.setItem('user_measurements', JSON.stringify(measurements));
+        renderHistory();
         renderMenus();
+        alert("Параметры сохранены");
     }
 
-    document.getElementById('save-measurements').onclick = saveMeasurements;
+    function renderHistory() {
+        let history = JSON.parse(localStorage.getItem('user_measurements') || '[]');
+        let container = document.getElementById('history-table');
+        if (history.length === 0) { container.innerHTML = "<p>Нет сохранённых замеров</p>"; return; }
+        let html = '<table><thead><tr><th>Дата</th><th>Вес</th><th>Рост</th><th>Возраст</th><th>Цель</th></tr></thead><tbody>';
+        history.slice().reverse().forEach(h => {
+            html += `<tr><td>${new Date(h.date).toLocaleDateString()}</td><td>${h.weight || "-"} кг</td><td>${h.height || "-"} см</td><td>${h.age || "-"}</td><td>${h.goal === "loss" ? "похудение" : (h.goal === "gain" ? "набор" : "поддержание")}</td></tr>`;
+        });
+        html += '</tbody></table>';
+        container.innerHTML = html;
+    }
+
+    // Инициализация
+    document.getElementById('save-measurements').onclick = saveMeasurementsToLocal;
     document.getElementById('save-ferritin').onclick = () => renderMenus();
     document.getElementById('save-menu-choice').onclick = saveMenuToCookbook;
-    document.querySelectorAll('.goal-btn').forEach(btn => btn.onclick = () => { document.querySelectorAll('.goal-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); currentGoal = btn.dataset.goal; saveMeasurements(); });
-    onAuthStateChanged(auth, (user) => { currentUser = user; if(user) { document.getElementById('auth-check').style.display='none'; document.getElementById('dashboard-content').style.display='block'; renderMenus(); } else { document.getElementById('auth-check').innerHTML='<p>Войдите на главной странице</p>'; } });
+    document.getElementById('enable-notifications').onclick = () => {
+        if (Notification.permission !== 'granted') Notification.requestPermission().then(p => { if (p === 'granted') alert("Уведомления включены"); });
+        else alert("Уведомления уже разрешены");
+    };
+    document.querySelectorAll('.goal-btn').forEach(btn => {
+        btn.onclick = () => {
+            document.querySelectorAll('.goal-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentGoal = btn.dataset.goal;
+            saveMeasurementsToLocal();
+        };
+    });
+
+    onAuthStateChanged(auth, (user) => {
+        currentUser = user;
+        if (user) {
+            document.getElementById('auth-check').style.display = 'none';
+            document.getElementById('dashboard-content').style.display = 'block';
+            renderHistory();
+            renderMenus();
+        } else {
+            document.getElementById('auth-check').innerHTML = '<p>🔐 Пожалуйста, <a href="index.html" style="color:#1a1a2e;">войдите или зарегистрируйтесь</a> на главной странице</p>';
+            document.getElementById('dashboard-content').style.display = 'none';
+        }
+    });
 </script>
 </body>
 </html>
