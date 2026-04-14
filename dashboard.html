@@ -108,7 +108,7 @@
 </div>
 
 <script>
-    // ========== БАЗА МЕНЮ (4 ВАРИАНТА ДЛЯ КАЖДОГО КОРИДОРА) ==========
+    // ========== БАЗА МЕНЮ ==========
     const MENUS = {
         low: {
             1200: [
@@ -173,7 +173,6 @@
     let currentGoal = "maintain";
     let selectedMenu = null;
 
-    // Вспомогательные функции
     function getFerritinStatus(val) { if (!val && val!==0) return "normal"; if (val < 50) return "low"; return "normal"; }
     function getTargetCalories(w,h,a,g) { let bmr = 10*w + 6.25*h - 5*a - 161; let tdee = bmr * 1.375; if (g==="loss") return Math.round(tdee*0.85); if (g==="gain") return Math.round(tdee*1.1); return Math.round(tdee); }
     function findNearestRange(cal) { let ranges = [1200,1350,1450,1550,1650,1750,1850,1950]; return ranges.reduce((a,b) => Math.abs(b-cal) < Math.abs(a-cal) ? b : a); }
@@ -327,7 +326,7 @@
         if (savedFerritin) document.getElementById('ferritin').value = savedFerritin;
     }
 
-    // ========== РЕНДЕР МЕНЮ (4 ВАРИАНТА, РАБОТАЕТ) ==========
+    // ========== РЕНДЕР МЕНЮ (4 ВАРИАНТА) ==========
     function renderMenus() {
         let w = parseFloat(document.getElementById('weight').value);
         let h = parseFloat(document.getElementById('height').value);
@@ -428,7 +427,7 @@
             container.innerHTML = "<p>Нет сохранённых замеров</p>";
             return;
         }
-        let html = '<table><thead><tr><th>Дата</th><th>Вес</th><th>Рост</th><th>Возраст</th><th>Грудь</th><th>Талия</th><th>Бёдра</th><th>Цель</th></tr></thead><tbody>';
+        let html = '</table><thead><tr><th>Дата</th><th>Вес</th><th>Рост</th><th>Возраст</th><th>Грудь</th><th>Талия</th><th>Бёдра</th><th>Цель</th></tr></thead><tbody>';
         history.slice().reverse().forEach(h => {
             html += `<tr><td>${new Date(h.date).toLocaleDateString()}</td><td>${h.weight || "-"} кг</td><td>${h.height || "-"} см</td><td>${h.age || "-"}</td><td>${h.chest || "-"}</td><td>${h.waist || "-"}</td><td>${h.hips || "-"}</td><td>${h.goal === "loss" ? "похудение" : (h.goal === "gain" ? "набор" : "поддержание")}</td></tr>`;
         });
@@ -436,8 +435,16 @@
         container.innerHTML = html;
     }
 
+    // ========== ИНИЦИАЛИЗАЦИЯ (КНОПКИ ПРИВЯЗАНЫ) ==========
     function init() {
-        document.getElementById('saveParamsBtn').onclick = saveParams;
+        // Привязываем кнопку сохранения параметров
+        const saveParamsBtn = document.getElementById('saveParamsBtn');
+        if (saveParamsBtn) {
+            saveParamsBtn.onclick = saveParams;
+        } else {
+            console.error("Кнопка saveParamsBtn не найдена");
+        }
+        
         document.getElementById('saveCycleBtn').onclick = saveCycleData;
         document.getElementById('saveFerritinBtn').onclick = saveFerritinData;
         document.getElementById('saveMenuBtn').onclick = saveMenuToLocal;
@@ -448,6 +455,7 @@
                 alert("Уведомления уже разрешены");
             }
         };
+        
         document.querySelectorAll('.goal-btn').forEach(btn => {
             btn.onclick = () => {
                 document.querySelectorAll('.goal-btn').forEach(b => b.classList.remove('active'));
@@ -457,13 +465,20 @@
                 renderMenus();
             };
         });
+        
         loadSavedData();
         renderHistory();
         if (document.getElementById('weight').value && document.getElementById('height').value && document.getElementById('age').value) {
             renderMenus();
         }
     }
-    init();
+    
+    // Запускаем после полной загрузки DOM
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
 </script>
 </body>
 </html>
