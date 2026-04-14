@@ -108,9 +108,8 @@
 </div>
 
 <script>
-    // ========== ПРИНУДИТЕЛЬНАЯ ПРИВЯЗКА КНОПОК (ДОБАВЛЕНО ДЛЯ НАДЁЖНОСТИ) ==========
+    // ========== ПРИНУДИТЕЛЬНАЯ ПРИВЯЗКА КНОПОК ==========
     (function() {
-        // Ждём полной загрузки DOM
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', bindButtons);
         } else {
@@ -118,61 +117,21 @@
         }
         
         function bindButtons() {
+            // Инициализируем currentGoal, если ещё нет
+            window.currentGoal = window.currentGoal || "maintain";
+            
             // Кнопка сохранения параметров
             const saveParamsBtn = document.getElementById('saveParamsBtn');
             if (saveParamsBtn) {
                 saveParamsBtn.onclick = function(e) {
                     e.preventDefault();
-                    console.log("Кнопка Сохранить параметры нажата");
-                    
-                    let weight = document.getElementById('weight').value;
-                    let height = document.getElementById('height').value;
-                    let age = document.getElementById('age').value;
-                    let chest = document.getElementById('chest').value;
-                    let waist = document.getElementById('waist').value;
-                    let hips = document.getElementById('hips').value;
-                    
-                    if (!weight || !height || !age) {
-                        alert("❌ Заполните вес, рост и возраст (обязательные поля)");
-                        return;
+                    if (typeof window.saveParams === 'function') {
+                        window.saveParams();
+                    } else {
+                        console.error("saveParams не определена");
+                        alert("Ошибка: функция сохранения не загружена");
                     }
-                    
-                    // Сохраняем параметры
-                    let params = {
-                        weight: weight,
-                        height: height,
-                        age: age,
-                        chest: chest || "",
-                        waist: waist || "",
-                        hips: hips || "",
-                        goal: currentGoal,
-                        date: new Date().toISOString()
-                    };
-                    localStorage.setItem('user_params', JSON.stringify(params));
-                    
-                    // Сохраняем в историю
-                    let history = JSON.parse(localStorage.getItem('user_measurements') || '[]');
-                    history.push({
-                        date: new Date().toISOString(),
-                        weight: weight,
-                        height: height,
-                        age: age,
-                        chest: chest || "",
-                        waist: waist || "",
-                        hips: hips || "",
-                        goal: currentGoal
-                    });
-                    localStorage.setItem('user_measurements', JSON.stringify(history));
-                    
-                    // Обновляем интерфейс
-                    if (typeof renderHistory === 'function') renderHistory();
-                    if (typeof updateCalorieDisplay === 'function') updateCalorieDisplay();
-                    if (typeof renderMenus === 'function') renderMenus();
-                    
-                    alert("✅ Параметры сохранены!");
                 };
-            } else {
-                console.error("Кнопка saveParamsBtn не найдена");
             }
             
             // Кнопка сохранения цикла
@@ -232,7 +191,7 @@
                     e.preventDefault();
                     document.querySelectorAll('.goal-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
-                    currentGoal = btn.dataset.goal;
+                    window.currentGoal = btn.dataset.goal;
                     if (typeof updateCalorieDisplay === 'function') updateCalorieDisplay();
                     if (typeof renderMenus === 'function') renderMenus();
                 };
@@ -393,6 +352,54 @@
         let savedFerritin = localStorage.getItem('user_ferritin');
         if (savedFerritin) document.getElementById('ferritin').value = savedFerritin;
     }
+
+    // ========== ОСНОВНАЯ ФУНКЦИЯ СОХРАНЕНИЯ ==========
+    window.saveParams = function() {
+        console.log("saveParams вызвана");
+        let weight = document.getElementById('weight').value;
+        let height = document.getElementById('height').value;
+        let age = document.getElementById('age').value;
+        let chest = document.getElementById('chest').value;
+        let waist = document.getElementById('waist').value;
+        let hips = document.getElementById('hips').value;
+        
+        if (!weight || !height || !age) {
+            alert("❌ Заполните вес, рост и возраст (обязательные поля)");
+            return false;
+        }
+        
+        let params = {
+            weight: weight,
+            height: height,
+            age: age,
+            chest: chest || "",
+            waist: waist || "",
+            hips: hips || "",
+            goal: currentGoal,
+            date: new Date().toISOString()
+        };
+        localStorage.setItem('user_params', JSON.stringify(params));
+        
+        let history = JSON.parse(localStorage.getItem('user_measurements') || '[]');
+        history.push({
+            date: new Date().toISOString(),
+            weight: weight,
+            height: height,
+            age: age,
+            chest: chest || "",
+            waist: waist || "",
+            hips: hips || "",
+            goal: currentGoal
+        });
+        localStorage.setItem('user_measurements', JSON.stringify(history));
+        
+        if (typeof renderHistory === 'function') renderHistory();
+        if (typeof updateCalorieDisplay === 'function') updateCalorieDisplay();
+        if (typeof renderMenus === 'function') renderMenus();
+        
+        alert("✅ Параметры сохранены!");
+        return true;
+    };
 
     // ========== РЕНДЕР МЕНЮ (4 ВАРИАНТА) ==========
     function renderMenus() {
