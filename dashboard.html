@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Личный кабинет | Валерия Радкова</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .dashboard-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 24px;
+        }
+        .dashboard-card {
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        @media (max-width: 480px) {
+            .dashboard-card { padding: 24px; }
+        }
+        .measurement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 24px;
+            margin: 24px 0;
+        }
+        .measure-item {
+            text-align: center;
+            padding: 16px;
+            background: #faf8f5;
+            border-radius: 20px;
+        }
+        .measure-item label {
+            display: block;
+            font-size: 0.8rem;
+            color: #999;
+            margin-bottom: 8px;
+        }
+        .measure-item input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e0d6c8;
+            border-radius: 40px;
+            font-size: 1rem;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-save {
+            background: #1a1a2e;
+            color: white;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e0d6c8;
+            border-radius: 40px;
+            font-family: 'Inter', sans-serif;
+            margin: 16px 0;
+        }
+        .calorie-result {
+            background: #e8f0e8;
+            padding: 20px;
+            border-radius: 20px;
+            margin: 20px 0;
+        }
+        .meal-menu {
+            background: #faf8f5;
+            padding: 20px;
+            border-radius: 20px;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        th {
+            background: #faf8f5;
+            font-weight: 600;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 24px;
+            color: #1a1a2e;
+            text-decoration: none;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> На главную</a>
+
+        <div id="auth-check" style="text-align: center; padding: 40px;">
+            <p>Загрузка...</p>
+        </div>
+
+        <div id="dashboard-content" style="display: none;">
+            <div class="dashboard-card">
+                <h2>📏 Мои замеры</h2>
+                <p>Вносите данные раз в неделю, чтобы отслеживать прогресс</p>
+
+                <div class="measurement-grid">
+                    <div class="measure-item"><label>Вес (кг)</label><input type="number" id="weight" step="0.1" placeholder="55.5"></div>
+                    <div class="measure-item"><label>Обхват под грудью (см)</label><input type="number" id="chest" step="0.5" placeholder="75"></div>
+                    <div class="measure-item"><label>Обхват талии (см)</label><input type="number" id="waist" step="0.5" placeholder="68"></div>
+                    <div class="measure-item"><label>Обхват бёдер (см)</label><input type="number" id="hips" step="0.5" placeholder="92"></div>
+                    <div class="measure-item"><label>Рост (см)</label><input type="number" id="height" step="1" placeholder="165"></div>
+                    <div class="measure-item"><label>Возраст</label><input type="number" id="age" step="1" placeholder="30"></div>
+                </div>
+
+                <button id="save-measurements" class="btn-save"><i class="fas fa-save"></i> Сохранить замеры</button>
+            </div>
+
+            <div class="dashboard-card">
+                <h2>🔥 Калькулятор калорий</h2>
+                <select id="activity-level">
+                    <option value="1.2">Минимальная активность (сидячая работа)</option>
+                    <option value="1.375">Лёгкая активность (1-3 тренировки в неделю)</option>
+                    <option value="1.55">Средняя активность (3-5 тренировок)</option>
+                    <option value="1.725">Высокая активность (6-7 тренировок)</option>
+                    <option value="1.9">Очень высокая активность</option>
+                </select>
+                <button id="calc-calories" class="btn-save"><i class="fas fa-calculator"></i> Рассчитать норму калорий</button>
+                <div id="calorie-result" class="calorie-result" style="display: none;"></div>
+                <div id="meal-menu" class="meal-menu" style="display: none;"></div>
+            </div>
+
+            <div class="dashboard-card">
+                <h2>📊 История замеров</h2>
+                <div id="history-table"></div>
+            </div>
+
+            <div class="dashboard-card">
+                <h2>🔔 Напоминания</h2>
+                <p>Включите уведомления, чтобы я напоминала вам о замерах и тренировках</p>
+                <button id="enable-notifications" class="btn-outline"><i class="fas fa-bell"></i> Включить напоминания</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyArSzPNl80_orGdu5B8y8T_0ksIFR0xdaQ",
+            authDomain: "valeriyaradkova-d61db.firebaseapp.com",
+            projectId: "valeriyaradkova-d61db",
+            storageBucket: "valeriyaradkova-d61db.firebasestorage.app",
+            messagingSenderId: "404181139779",
+            appId: "1:404181139779:web:90bd04d393d62b73c46ff6",
+            measurementId: "G-XDPYTD6XDN"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        const authCheckDiv = document.getElementById('auth-check');
+        const dashboardContent = document.getElementById('dashboard-content');
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                authCheckDiv.style.display = 'none';
+                dashboardContent.style.display = 'block';
+                initDashboard();
+            } else {
+                authCheckDiv.innerHTML = '<p>Пожалуйста, <a href="index.html" style="color:#1a1a2e;">войдите</a> в личный кабинет на главной странице</p>';
+                dashboardContent.style.display = 'none';
+            }
+        });
+
+        function initDashboard() {
+            loadMeasurements();
+            document.getElementById('save-measurements').addEventListener('click', saveMeasurements);
+            document.getElementById('calc-calories').addEventListener('click', calculateCalories);
+            document.getElementById('enable-notifications').addEventListener('click', () => {
+                if (Notification.permission !== 'granted') {
+                    Notification.requestPermission().then(perm => {
+                        if (perm === 'granted') alert('Уведомления включены!');
+                    });
+                } else {
+                    alert('Уведомления уже включены');
+                }
+            });
+        }
+
+        function saveMeasurements() {
+            const measurements = {
+                date: new Date().toISOString(),
+                weight: document.getElementById('weight').value,
+                chest: document.getElementById('chest').value,
+                waist: document.getElementById('waist').value,
+                hips: document.getElementById('hips').value,
+                height: document.getElementById('height').value,
+                age: document.getElementById('age').value
+            };
+            let history = JSON.parse(localStorage.getItem('user_measurements') || '[]');
+            history.push(measurements);
+            localStorage.setItem('user_measurements', JSON.stringify(history));
+            alert('Замеры сохранены!');
+            loadMeasurements();
+        }
+
+        function loadMeasurements() {
+            const history = JSON.parse(localStorage.getItem('user_measurements') || '[]');
+            if (history.length > 0) {
+                const last = history[history.length - 1];
+                document.getElementById('weight').value = last.weight || '';
+                document.getElementById('chest').value = last.chest || '';
+                document.getElementById('waist').value = last.waist || '';
+                document.getElementById('hips').value = last.hips || '';
+                document.getElementById('height').value = last.height || '';
+                document.getElementById('age').value = last.age || '';
+            }
+            
+            const historyDiv = document.getElementById('history-table');
+            if (history.length === 0) {
+                historyDiv.innerHTML = '<p>Нет сохранённых замеров</p>';
+                return;
+            }
+            
+            let html = '<table><thead><tr><th>Дата</th><th>Вес</th><th>Грудь</th><th>Талия</th><th>Бёдра</th></tr></thead><tbody>';
+            history.slice().reverse().forEach(m => {
+                html += `<tr><td>${new Date(m.date).toLocaleDateString()}</td><td>${m.weight || '-'} кг</td><td>${m.chest || '-'} см</td><td>${m.waist || '-'} см</td><td>${m.hips || '-'} см</td></tr>`;
+            });
+            html += '</tbody></table>';
+            historyDiv.innerHTML = html;
+        }
+
+        function calculateCalories() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+            const age = parseFloat(document.getElementById('age').value);
+            const activity = parseFloat(document.getElementById('activity-level').value);
+            
+            if (!weight || !height || !age) {
+                alert('Пожалуйста, заполните вес, рост и возраст в разделе "Мои замеры"');
+                return;
+            }
+            
+            const bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+            const calories = Math.round(bmr * activity);
+            
+            const resultDiv = document.getElementById('calorie-result');
+            const menuDiv = document.getElementById('meal-menu');
+            
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `<strong>Ваша норма калорий: ${calories} ккал/день</strong><br>Для поддержания веса. Для похудения вычтите 10-15%, для набора массы — добавьте 10-15%.`;
+            
+            let menu = '<strong>🥗 Примерное меню на день:</strong><ul style="margin-top: 12px; margin-left: 20px;">';
+            if (calories < 1600) {
+                menu += '<li>Завтрак: 2 яйца, овсянка на воде, зелёный чай</li><li>Обед: куриная грудка (150г), гречка, салат</li><li>Ужин: рыба на пару (150г), овощи</li><li>Перекус: яблоко, горсть орехов</li>';
+            } else if (calories < 2000) {
+                menu += '<li>Завтрак: омлет из 3 яиц, тост с авокадо</li><li>Обед: индейка (180г), бурый рис, овощи</li><li>Ужин: творог (200г) с ягодами</li><li>Перекус: банан, йогурт</li>';
+            } else {
+                menu += '<li>Завтрак: каша на молоке + орехи, 2 яйца</li><li>Обед: говядина (200г), картофель, салат</li><li>Ужин: рыба (200г), киноа, овощи</li><li>Перекус: протеиновый коктейль</li>';
+            }
+            menu += '</ul><p>💧 Не забывайте пить 1.5-2 литра воды в день!</p>';
+            menuDiv.style.display = 'block';
+            menuDiv.innerHTML = menu;
+        }
+    </script>
+</body>
+</html>

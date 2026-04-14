@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Статья | Валерия Радкова</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .article-container { max-width: 800px; margin: 60px auto; padding: 0 20px; }
+        @media (max-width: 768px) { .article-container { margin: 40px auto; } }
+        .article-card { background: white; border-radius: 32px; padding: 40px; box-shadow: 0 8px 30px rgba(0,0,0,0.05); }
+        @media (max-width: 600px) { .article-card { padding: 24px; } }
+        .back-link { display: inline-block; margin-bottom: 24px; color: #1a1a2e; text-decoration: none; font-weight: 500; }
+        h1 { font-size: 2.2rem; margin-bottom: 16px; }
+        @media (max-width: 600px) { h1 { font-size: 1.6rem; } }
+        .article-meta { display: flex; gap: 24px; margin-bottom: 32px; color: #999; font-size: 0.85rem; }
+        .article-content { font-size: 1.05rem; line-height: 1.7; color: #2a2a3a; }
+        .article-content p { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="article-container">
+        <div class="article-card">
+            <a href="blog.html" class="back-link"><i class="fas fa-arrow-left"></i> Ко всем статьям</a>
+            <h1 id="article-title"></h1>
+            <div class="article-meta">
+                <span id="article-date"></span>
+                <span><i class="far fa-eye"></i> <span id="article-views"></span></span>
+            </div>
+            <div id="article-content" class="article-content"></div>
+        </div>
+    </div>
+    <script>
+        function getBlogPosts() {
+            const posts = localStorage.getItem('blog_posts');
+            return posts ? JSON.parse(posts) : [];
+        }
+        function addView(postId) {
+            const posts = getBlogPosts();
+            const post = posts.find(p => p.id == postId);
+            if (post) {
+                post.views = (post.views || 0) + 1;
+                localStorage.setItem('blog_posts', JSON.stringify(posts));
+            }
+        }
+        function loadArticle() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            if (!id) { window.location.href = 'blog.html'; return; }
+            const posts = getBlogPosts();
+            const post = posts.find(p => p.id == id);
+            if (!post) { window.location.href = 'blog.html'; return; }
+            addView(id);
+            document.getElementById('article-title').innerHTML = post.title_ru || post.title;
+            document.getElementById('article-content').innerHTML = (post.content_ru || post.content || '').replace(/\n/g, '<br>');
+            document.getElementById('article-date').innerHTML = new Date(post.date).toLocaleDateString();
+            document.getElementById('article-views').innerHTML = post.views || 0;
+            document.title = post.title_ru || post.title;
+        }
+        document.addEventListener('DOMContentLoaded', loadArticle);
+    </script>
+</body>
+</html>

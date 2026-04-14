@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Блог | Валерия Радкова</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .blog-header {
+            padding: 120px 0 40px;
+            background: linear-gradient(135deg, #faf8f5 0%, #ffffff 100%);
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+        @media (max-width: 768px) {
+            .blog-header { padding: 100px 0 30px; }
+            h1 { font-size: 2rem; }
+        }
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 40px;
+            margin: 48px 0;
+        }
+        @media (max-width: 600px) {
+            .blog-grid { grid-template-columns: 1fr; gap: 24px; }
+        }
+        .blog-card {
+            background: #faf8f5;
+            border-radius: 24px;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s;
+            display: block;
+        }
+        .blog-card:hover { transform: translateY(-6px); }
+        .blog-card-content { padding: 24px; }
+        .blog-card h3 { font-size: 1.3rem; margin-bottom: 12px; }
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            font-size: 0.8rem;
+            color: #999;
+        }
+        .back-link {
+            display: inline-block;
+            margin: 20px 0;
+            color: #1a1a2e;
+            text-decoration: none;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="blog-header">
+        <div class="container">
+            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> На главную</a>
+            <h1>📖 Блог о движении без боли</h1>
+            <p>Здесь я делюсь знаниями о том, как работает наше тело</p>
+        </div>
+    </div>
+    <div class="container">
+        <div id="blog-list" class="blog-grid"></div>
+    </div>
+    <script>
+        function getBlogPosts() {
+            const posts = localStorage.getItem('blog_posts');
+            return posts ? JSON.parse(posts) : [];
+        }
+        function loadBlogList() {
+            const container = document.getElementById('blog-list');
+            const posts = getBlogPosts();
+            const sorted = posts.sort((a,b) => new Date(b.date) - new Date(a.date));
+            if (sorted.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#999;">Пока нет статей. Загляните позже!</p>';
+                return;
+            }
+            container.innerHTML = sorted.map(post => `
+                <a href="article.html?id=${post.id}" class="blog-card">
+                    <div class="blog-card-content">
+                        <h3>${post.title_ru || post.title}</h3>
+                        <p>${(post.excerpt_ru || post.excerpt || '').substring(0, 120)}${(post.excerpt_ru || post.excerpt || '').length > 120 ? '...' : ''}</p>
+                        <div class="blog-meta">
+                            <span>${new Date(post.date).toLocaleDateString()}</span>
+                            <span><i class="far fa-eye"></i> ${post.views || 0}</span>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        }
+        document.addEventListener('DOMContentLoaded', loadBlogList);
+    </script>
+</body>
+</html>

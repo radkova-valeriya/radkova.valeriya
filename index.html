@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Валерия Радкова | Нейро-фасциальная кинетика</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="lang-switch">
+        <button class="lang-btn active" data-lang="ru">🇷🇺 Русский</button>
+        <button class="lang-btn" data-lang="es">🇪🇸 Español</button>
+    </div>
+
+    <!-- Hero секция с фото -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero__wrapper">
+                <div class="hero__text">
+                    <h1 class="hero__title" data-ru="Ваше тело умеет двигаться легко. Давайте просто напомним ему об этом." data-es="Tu cuerpo sabe moverse con facilidad. Solo recordémoslo.">
+                        Ваше тело умеет двигаться легко. Давайте просто напомним ему об этом.
+                    </h1>
+                    <p class="hero__subtitle" data-ru="Онлайн-тренировки и персональное сопровождение для женщин, которые устали «чинить» себя по частям и хотят вернуть целостность, энергию и свободу от боли." data-es="Entrenamientos online y acompañamiento personalizado para mujeres que están cansadas de 'arreglarse' por partes y quieren recuperar la integridad, energía y libertad del dolor.">
+                        Онлайн-тренировки и персональное сопровождение для женщин, которые устали «чинить» себя по частям и хотят вернуть целостность, энергию и свободу от боли.
+                    </p>
+                    <a href="https://t.me/valeriia_radkova" target="_blank" class="btn-primary">
+                        <i class="fab fa-telegram"></i> 
+                        <span data-ru="Записаться на пробную тренировку со скидкой 50%" data-es="Reservar entrenamiento de prueba con 50% de descuento">Записаться на пробную тренировку со скидкой 50%</span>
+                    </a>
+                    <div class="auth-block">
+                        <button class="btn-auth" id="login-btn">
+                            <i class="fas fa-user-circle"></i> 
+                            <span data-ru="Вход / Регистрация в личный кабинет" data-es="Iniciar sesión / Registrarse en el panel personal">Вход / Регистрация в личный кабинет</span>
+                        </button>
+                        <div id="user-profile" style="display: none;">
+                            <span id="user-name"></span>
+                            <button class="btn-auth small" id="logout-btn">Выйти</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero__image">
+                    <img src="lera.jpg" alt="Валерия Радкова">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Модалка входа -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Вход или регистрация</h3>
+            <input type="email" id="login-email" placeholder="Email">
+            <input type="password" id="login-password" placeholder="Пароль (минимум 6 символов)">
+            <button id="email-signup" class="btn-primary" style="background:#1a1a2e; width:100%; justify-content:center;">Зарегистрироваться</button>
+            <button id="email-signin" class="btn-outline" style="width:100%; justify-content:center;">Войти</button>
+            <div class="social-login">
+                <p>или через соцсети:</p>
+                <button id="google-login"><i class="fab fa-google"></i> Google</button>
+                <button id="apple-login"><i class="fab fa-apple"></i> Apple</button>
+                <button id="facebook-login"><i class="fab fa-facebook"></i> Facebook</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Философия -->
+    <section class="philosophy">
+        <div class="container">
+            <div class="philosophy__content">
+                <h2 data-ru="Я не верю в «универсальные программы»" data-es="No creo en los 'programas universales'">Я не верю в «универсальные программы»</h2>
+                <p data-ru="Я верю в то, что тело каждой женщины — это уникальная, мудрая система, которая говорит с нами на языке ощущений." data-es="Creo que el cuerpo de cada mujer es un sistema único y sabio que nos habla en el lenguaje de las sensaciones.">
+                    Я верю в то, что тело каждой женщины — это уникальная, мудрая система, которая говорит с нами на языке ощущений.
+                </p>
+                <p class="philosophy__quote" data-ru="Моя задача — стать для вас переводчиком с этого языка." data-es="Mi tarea es ser su traductora de este lenguaje.">
+                    Моя задача — стать для вас переводчиком с этого языка.
+                </p>
+                <p data-ru="Я не лечу болезни. Я создаю условия, в которых ваше тело само вспоминает, как двигаться без боли в спине, как дышать без поднятых плеч и как чувствовать опору без напряжения в челюсти." data-es="No curo enfermedades. Creo las condiciones para que su cuerpo recuerde cómo moverse sin dolor de espalda, cómo respirar sin hombros levantados y cómo sentirse apoyado sin tensión en la mandíbula.">
+                    Я не лечу болезни. Я создаю условия, в которых ваше тело само вспоминает, как двигаться без боли в спине, как дышать без поднятых плеч и как чувствовать опору без напряжения в челюсти.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4 метода в одну строку -->
+    <section class="methods">
+        <div class="container">
+            <div class="methods__grid">
+                <div class="method-card">
+                    <div class="method-card__icon"><i class="fas fa-dumbbell"></i></div>
+                    <h3 data-ru="Классический фитнес и периодизация" data-es="Fitness clásico y periodización">Классический фитнес и периодизация</h3>
+                    <p class="method-card__subtitle" data-ru="Чтобы ваше тело менялось предсказуемо, без плато и перетренированности" data-es="Para que tu cuerpo cambie de forma predecible, sin mesetas ni sobreentrenamiento">Чтобы ваше тело менялось предсказуемо, без плато и перетренированности</p>
+                    <p data-ru="Я строю тренировочный процесс по законам теории и методики фитнес-тренировки, а не по принципу «сегодня покачаем попу, завтра — руки»." data-es="Construyo el proceso de entrenamiento según las leyes de la teoría y metodología del fitness, no por el principio de 'hoy entrenamos glúteos, mañana brazos'.">Я строю тренировочный процесс по законам теории и методики фитнес-тренировки, а не по принципу «сегодня покачаем попу, завтра — руки».</p>
+                    <ul class="method-card__list">
+                        <li data-ru="<strong>Макроциклы, мезоциклы, микроциклы.</strong> Ваша программа расписана на месяцы вперёд с чёткой логикой." data-es="<strong>Macrociclos, mesociclos, microciclos.</strong> Tu programa está planificado con meses de antelación."><strong>Макроциклы, мезоциклы, микроциклы.</strong> Ваша программа расписана на месяцы вперёд с чёткой логикой.</li>
+                        <li data-ru="<strong>Прогрессия нагрузок.</strong> Объём и интенсивность растут ровно тогда, когда ваше тело к этому готово." data-es="<strong>Progresión de cargas.</strong> El volumen y la intensidad aumentan exactamente cuando tu cuerpo está listo."><strong>Прогрессия нагрузок.</strong> Объём и интенсивность растут ровно тогда, когда ваше тело к этому готово.</li>
+                        <li data-ru="<strong>Синхронизация с женским циклом.</strong> В фолликулярную фазу — сила и мощь. В лютеиновую — снижение интенсивности и акцент на технику." data-es="<strong>Sincronización con el ciclo femenino.</strong> En la fase folicular — fuerza y potencia. En la lútea — reducción de intensidad y enfoque en técnica."><strong>Синхронизация с женским циклом.</strong> В фолликулярную фазу — сила и мощь. В лютеиновую — снижение интенсивности и акцент на технику.</li>
+                    </ul>
+                    <p class="method-card__result" data-ru="→ Это даёт стабильный результат без травм и выгорания." data-es="→ Esto da un resultado estable sin lesiones ni agotamiento.">→ Это даёт стабильный результат без травм и выгорания.</p>
+                </div>
+                <div class="method-card">
+                    <div class="method-card__icon"><i class="fas fa-bone"></i></div>
+                    <h3 data-ru="Классическая биомеханика" data-es="Biomecánica clásica">Классическая биомеханика</h3>
+                    <p class="method-card__subtitle" data-ru="Чтобы ваши суставы работали в правильных осях и не изнашивались" data-es="Para que tus articulaciones trabajen en los ejes correctos y no se desgasten">Чтобы ваши суставы работали в правильных осях и не изнашивались</p>
+                    <p data-ru="Я опираюсь на фундаментальную анатомию А.И. Капанджи («Физиология суставов») и принципы Polestar Pilates." data-es="Me baso en la anatomía fundamental de A.I. Kapandji («Fisiología articular») y los principios de Polestar Pilates.">Я опираюсь на фундаментальную анатомию А.И. Капанджи («Физиология суставов») и принципы Polestar Pilates.</p>
+                    <ul class="method-card__list">
+                        <li data-ru="<strong>Нейтральное положение позвоночника.</strong> Вы перестанете прогибать поясницу в приседе и тяге, снимая нагрузку с позвонков L4-L5-S1." data-es="<strong>Posición neutra de la columna.</strong> Dejarás de arquear la zona lumbar en sentadillas y pesos muertos."><strong>Нейтральное положение позвоночника.</strong> Вы перестанете прогибать поясницу в приседе и тяге, снимая нагрузку с позвонков L4-L5-S1.</li>
+                        <li data-ru="<strong>Правильные оси вращения.</strong> Колени перестанут «заваливаться» внутрь, плечи — уходить в уши, а таз — перекашиваться." data-es="<strong>Ejes de rotación correctos.</strong> Las rodillas dejarán de «caer» hacia adentro."><strong>Правильные оси вращения.</strong> Колени перестанут «заваливаться» внутрь, плечи — уходить в уши, а таз — перекашиваться.</li>
+                        <li data-ru="<strong>Движение в суставе, а не всем телом.</strong> Вы научитесь изолированно сгибать бедро, не подключая поясницу." data-es="<strong>Movimiento en la articulación, no con todo el cuerpo.</strong> Aprenderás a flexionar la cadera de forma aislada."><strong>Движение в суставе, а не всем телом.</strong> Вы научитесь изолированно сгибать бедро, не подключая поясницу.</li>
+                    </ul>
+                    <p class="method-card__result" data-ru="→ Результат: упражнения работают на целевые мышцы, а не на износ суставов." data-es="→ Resultado: los ejercicios trabajan los músculos objetivo, no el desgaste articular.">→ Результат: упражнения работают на целевые мышцы, а не на износ суставов.</p>
+                </div>
+                <div class="method-card">
+                    <div class="method-card__icon"><i class="fas fa-brain"></i></div>
+                    <h3 data-ru="Нейро-соматика" data-es="Neuro-somática">Нейро-соматика</h3>
+                    <p class="method-card__subtitle" data-ru="Чтобы «спящие» мышцы включились, а «перегруженные» расслабились" data-es="Para que los músculos «dormidos» se activen y los «sobrecargados» se relajen">Чтобы «спящие» мышцы включились, а «перегруженные» расслабились</p>
+                    <p data-ru="Я использую принципы метода Фельденкрайза и соматики Томаса Ханны. Мышца не сократится, пока мозг не дал ей команду. Если вы «не чувствуете ягодицы» — это не слабость, это кортикальная амнезия." data-es="Uso los principios del método Feldenkrais y la somática de Thomas Hanna. Si «no sientes los glúteos» — no es debilidad, es amnesia cortical.">Я использую принципы метода Фельденкрайза и соматики Томаса Ханны. Мышца не сократится, пока мозг не дал ей команду. Если вы «не чувствуете ягодицы» — это не слабость, это кортикальная амнезия.</p>
+                    <ul class="method-card__list">
+                        <li data-ru="<strong>Пробуждение «спящих» зон.</strong> Через микродвижения и осознавание мы возвращаем нейронную связь с ягодицами, глубокими мышцами живота и стопами." data-es="<strong>Despertar de zonas «dormidas».</strong> A través de micro-movimientos y conciencia."><strong>Пробуждение «спящих» зон.</strong> Через микродвижения и осознавание мы возвращаем нейронную связь с ягодицами, глубокими мышцами живота и стопами.</li>
+                        <li data-ru="<strong>Расслабление «каменных» зон.</strong> Хронически напряжённая трапеция или поясница наконец получают сигнал «отпустить»." data-es="<strong>Relajación de zonas «pétreas».</strong> El trapecio o la zona lumbar crónicamente tensos finalmente reciben la señal de «soltar»."><strong>Расслабление «каменных» зон.</strong> Хронически напряжённая трапеция или поясница наконец получают сигнал «отпустить».</li>
+                        <li data-ru="<strong>Новые паттерны закрепляются навсегда.</strong> Потому что мы работаем не с мышцей, а с «картой тела» в вашем мозге." data-es="<strong>Los nuevos patrones se fijan para siempre.</strong> Porque no trabajamos con el músculo, sino con el «mapa corporal» en tu cerebro."><strong>Новые паттерны закрепляются навсегда.</strong> Потому что мы работаем не с мышцей, а с «картой тела» в вашем мозге.</li>
+                    </ul>
+                    <p class="method-card__result" data-ru="→ Результат: вы начинаете чувствовать тело по-новому и управлять им без лишнего напряжения." data-es="→ Resultado: empiezas a sentir tu cuerpo de una nueva manera y a controlarlo sin tensión innecesaria.">→ Результат: вы начинаете чувствовать тело по-новому и управлять им без лишнего напряжения.</p>
+                </div>
+                <div class="method-card">
+                    <div class="method-card__icon"><i class="fas fa-lungs"></i></div>
+                    <h3 data-ru="Дыхание и заземление" data-es="Respiración y conexión a tierra">Дыхание и заземление</h3>
+                    <p class="method-card__subtitle" data-ru="Чтобы снять «стартл-рефлекс», который зажимает тело в ответ на стресс" data-es="Para eliminar el «reflejo de sobresalto» que tensa el cuerpo en respuesta al estrés">Чтобы снять «стартл-рефлекс», который зажимает тело в ответ на стресс</p>
+                    <p data-ru="Хронический стресс держит ваше тело в режиме «бей или беги»: плечи подняты, челюсть сжата, диафрагма заблокирована. Это называется стартл-рефлекс, и он крадёт до 30% вашей силы и подвижности." data-es="El estrés crónico mantiene tu cuerpo en modo «lucha o huye»: hombros levantados, mandíbula apretada, diafragma bloqueado.">Хронический стресс держит ваше тело в режиме «бей или беги»: плечи подняты, челюсть сжата, диафрагма заблокирована. Это называется стартл-рефлекс, и он крадёт до 30% вашей силы и подвижности.</p>
+                    <ul class="method-card__list">
+                        <li data-ru="<strong>Восстановление экскурсии диафрагмы.</strong> Вы научитесь дышать полным объёмом лёгких, массируя внутренние органы и улучшая лимфоток." data-es="<strong>Restauración de la excursión diafragmática.</strong> Aprenderás a respirar con toda la capacidad pulmonar."><strong>Восстановление экскурсии диафрагмы.</strong> Вы научитесь дышать полным объёмом лёгких, массируя внутренние органы и улучшая лимфоток.</li>
+                        <li data-ru="<strong>Связь дыхания с тазовым дном.</strong> На вдохе оно мягко опускается, на выдохе — подтягивается. Это основа здоровья малого таза и профилактика недержания." data-es="<strong>Conexión de la respiración con el suelo pélvico.</strong> Al inhalar desciende suavemente, al exhalar se eleva."><strong>Связь дыхания с тазовым дном.</strong> На вдохе оно мягко опускается, на выдохе — подтягивается. Это основа здоровья малого таза и профилактика недержания.</li>
+                        <li data-ru="<strong>Заземление через стопы.</strong> Вы почувствуете настоящую опору, которая снижает тревожность и улучшает баланс." data-es="<strong>Conexión a tierra a través de los pies.</strong> Sentirás un verdadero apoyo que reduce la ansiedad y mejora el equilibrio."><strong>Заземление через стопы.</strong> Вы почувствуете настоящую опору, которая снижает тревожность и улучшает баланс.</li>
+                    </ul>
+                    <p class="method-card__result" data-ru="→ Результат: уходит хроническое напряжение из шеи и плеч, улучшается сон и общее самочувствие." data-es="→ Resultado: desaparece la tensión crónica del cuello y los hombros, mejora el sueño y el bienestar general.">→ Результат: уходит хроническое напряжение из шеи и плеч, улучшается сон и общее самочувствие.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Для кого -->
+    <section class="for-whom">
+        <div class="container">
+            <h2 data-ru="Выберите утверждение, которое отзывается вам больше всего" data-es="Elija la afirmación que más le resuene">Выберите утверждение, которое отзывается вам больше всего</h2>
+            <div class="cards-grid">
+                <div class="whom-card">
+                    <div class="whom-card__problem"><i class="fas fa-spine"></i><p data-ru="«Моя спина устаёт к вечеру, даже если я просто сижу за компьютером. Массаж помогает на пару дней, а потом всё возвращается»." data-es="«Mi espalda se cansa al atardecer, incluso si solo estoy sentada frente a la computadora. El masaje ayuda por un par de días, pero luego todo vuelve».">«Моя спина устаёт к вечеру, даже если я просто сижу за компьютером. Массаж помогает на пару дней, а потом всё возвращается».</p></div>
+                    <div class="whom-card__solution"><i class="fas fa-check-circle"></i><p data-ru="Решение: Мы восстановим подвижность тазобедренных суставов и грудной клетки, чтобы снять компрессию с позвоночника." data-es="Solución: Restauraremos la movilidad de las caderas y la caja torácica para eliminar la compresión de la columna.">Решение: Мы восстановим подвижность тазобедренных суставов и грудной клетки, чтобы снять компрессию с позвоночника.</p></div>
+                </div>
+                <div class="whom-card">
+                    <div class="whom-card__problem"><i class="fas fa-belly"></i><p data-ru="«Я качаю пресс, но живот всё равно вываливается. Боюсь, что у меня диастаз, и не знаю, что с этим делать в тренажёрном зале»." data-es="«Hago abdominales, pero mi vientre sigue sobresaliendo. Temo tener diástasis y no sé qué hacer en el gimnasio».">«Я качаю пресс, но живот всё равно вываливается. Боюсь, что у меня диастаз, и не знаю, что с этим делать в тренажёрном зале».</p></div>
+                    <div class="whom-card__solution"><i class="fas fa-check-circle"></i><p data-ru="Решение: Мы научим вашу диафрагму и тазовое дно работать в команде. Живот станет плоским от правильного внутрибрюшного давления." data-es="Solución: Enseñaremos a su diafragma y suelo pélvico a trabajar en equipo. El vientre se aplana gracias a la presión intraabdominal correcta.">Решение: Мы научим вашу диафрагму и тазовое дно работать в команде. Живот станет плоским от правильного внутрибрюшного давления.</p></div>
+                </div>
+                <div class="whom-card">
+                    <div class="whom-card__problem"><i class="fas fa-walking"></i><p data-ru="«Я перестала чувствовать ягодицы в приседе. Работают только ноги и почему-то шея»." data-es="«He dejado de sentir los glúteos en la sentadilla. Solo trabajan las piernas y, por alguna razón, el cuello».">«Я перестала чувствовать ягодицы в приседе. Работают только ноги и почему-то шея».</p></div>
+                    <div class="whom-card__solution"><i class="fas fa-check-circle"></i><p data-ru="Решение: Это кортикальная амнезия — мозг забыл, как ими управлять. Мы вернём нейронную связь через соматические техники." data-es="Solución: Es amnesia cortical — el cerebro olvidó cómo controlarlos. Restauraremos la conexión neuronal con técnicas somáticas.">Решение: Это кортикальная амнезия — мозг забыл, как ими управлять. Мы вернём нейронную связь через соматические техники.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Цены -->
+    <section class="prices-section">
+        <div class="container">
+            <h2 data-ru="Стоимость" data-es="Precios">Стоимость</h2>
+            <div class="prices" id="prices-container"></div>
+        </div>
+    </section>
+
+    <!-- Обо мне -->
+    <section class="about">
+        <div class="container">
+            <div class="about__content">
+                <h2 data-ru="Меня зовут Валерия" data-es="Me llamo Valeriya">Меня зовут Валерия</h2>
+                <p data-ru="Я сертифицированный тренер с 10-летним опытом. Я училась у лучших специалистов Европы и США по Polestar Pilates, методу Фельденкрайза и прикладной неврологии." data-es="Soy entrenadora certificada con 10 años de experiencia. Estudié con los mejores especialistas de Europa y EE.UU. en Polestar Pilates, Método Feldenkrais y Neurología Aplicada.">Я сертифицированный тренер с 10-летним опытом. Я училась у лучших специалистов Европы и США по Polestar Pilates, методу Фельденкрайза и прикладной неврологии.</p>
+                <p data-ru="И я поняла главное: женщины — не маленькие мужчины. Наше тело живёт по другим законам, и стандартный фитнес часто вредит нам, а не помогает." data-es="Y entendí lo principal: las mujeres no somos hombres pequeños. Nuestro cuerpo vive según otras leyes, y el fitness estándar a menudo nos daña en lugar de ayudarnos.">И я поняла главное: женщины — не маленькие мужчины. Наше тело живёт по другим законам, и стандартный фитнес часто вредит нам, а не помогает.</p>
+                <p class="about__mission" data-ru="Сейчас я помогаю женщинам по всему миру обрести здоровое и удобное тело." data-es="Ahora ayudo a mujeres de todo el mundo a tener un cuerpo sano y confortable.">Сейчас я помогаю женщинам по всему миру обрести здоровое и удобное тело.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Блог -->
+    <section class="blog-preview">
+        <div class="container">
+            <h2 data-ru="Полезные статьи" data-es="Artículos útiles">Полезные статьи</h2>
+            <div class="blog-preview__grid" id="blog-preview"></div>
+            <div style="text-align: center;"><a href="blog.html" class="btn-outline"><i class="fas fa-newspaper"></i> <span data-ru="Все статьи" data-es="Todos los artículos">Все статьи</span></a></div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__links">
+                <a href="https://t.me/valeriia_radkova" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
+                <a href="dashboard.html"><i class="fas fa-chart-line"></i> <span data-ru="Личный кабинет" data-es="Panel personal">Личный кабинет</span></a>
+                <a href="blog.html"><i class="fas fa-blog"></i> <span data-ru="Блог" data-es="Blog">Блог</span></a>
+            </div>
+            <p class="footer__copy">© 2025 Valeriya Radkova</p>
+        </div>
+    </footer>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
