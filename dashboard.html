@@ -17,12 +17,12 @@
         .field label { display: block; font-size: 0.8rem; color: #999; margin-bottom: 8px; }
         .field input { width: 100%; padding: 12px; border: 1px solid #e0d6c8; border-radius: 40px; text-align: center; font-size: 1rem; }
         .goal-group { display: flex; gap: 12px; flex-wrap: wrap; margin: 20px 0; }
-        .goal-btn { background: #f0ede8; border: none; padding: 10px 24px; border-radius: 40px; cursor: pointer; }
+        .goal-btn { background: #f0ede8; border: none; padding: 10px 24px; border-radius: 40px; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; }
         .goal-btn.active { background: #1a1a2e; color: white; }
-        .btn { background: #1a1a2e; color: white; padding: 12px 28px; border: none; border-radius: 40px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; }
-        .btn-outline { background: transparent; border: 1.5px solid #1a1a2e; color: #1a1a2e; padding: 10px 24px; border-radius: 40px; cursor: pointer; }
+        .btn { background: #1a1a2e; color: white; padding: 12px 28px; border: none; border-radius: 40px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; font-family: 'Inter', sans-serif; margin-top: 10px; }
+        .btn-outline { background: transparent; border: 1.5px solid #1a1a2e; color: #1a1a2e; padding: 10px 24px; border-radius: 40px; cursor: pointer; font-family: 'Inter', sans-serif; }
         .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin: 24px 0; }
-        .menu-card { background: #faf8f5; border-radius: 24px; padding: 20px; cursor: pointer; border: 2px solid transparent; }
+        .menu-card { background: #faf8f5; border-radius: 24px; padding: 20px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; }
         .menu-card.selected { border-color: #4a7c59; background: #f0f5f0; }
         .menu-card h4 { margin-bottom: 8px; }
         .menu-desc { font-size: 0.8rem; color: #c4a87c; margin-bottom: 16px; }
@@ -42,7 +42,7 @@
     <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> На главную</a>
 
     <div id="authBlock" style="text-align:center; padding:40px;">
-        <p>Загрузка...</p>
+        <p>🔐 Пожалуйста, <a href="index.html" style="color:#1a1a2e;">войдите или зарегистрируйтесь</a> на главной странице</p>
     </div>
 
     <div id="dashboardContent" style="display:none;">
@@ -73,7 +73,7 @@
         <!-- Меню -->
         <div class="card" id="menuBlock" style="display:none;">
             <h2>🍽️ Меню на сегодня</h2>
-            <p id="menuInfo"></p>
+            <p id="menuInfo" style="margin-bottom: 16px;"></p>
             <div id="menuOptions" class="menu-grid"></div>
             <div id="selectedMenuBlock" style="display:none; margin-top: 32px; padding: 24px; background: #e8f0e8; border-radius: 24px;">
                 <h3>✅ Вы выбрали меню:</h3>
@@ -96,29 +96,8 @@
     </div>
 </div>
 
-<script type="module">
-    // -------------------- FIREBASE --------------------
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyArSzPNl80_orGdu5B8y8T_0ksIFR0xdaQ",
-        authDomain: "valeriyaradkova-d61db.firebaseapp.com",
-        projectId: "valeriyaradkova-d61db",
-        storageBucket: "valeriyaradkova-d61db.firebasestorage.app",
-        messagingSenderId: "404181139779",
-        appId: "1:404181139779:web:90bd04d393d62b73c46ff6"
-    };
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    let currentUser = null;
-    let currentGoal = "maintain";
-    let selectedMenu = null;
-
-    // -------------------- БАЗА МЕНЮ --------------------
+<script>
+    // -------------------- ПРОСТАЯ БАЗА МЕНЮ --------------------
     const menusDB = {
         low: {
             1200: { range: "1200–1300", menus: [
@@ -159,6 +138,9 @@
         }
     };
 
+    let currentGoal = "maintain";
+    let selectedMenu = null;
+
     function getFerritinStatus(val) {
         if (val === "" || val === null) return null;
         if (val < 50) return "low";
@@ -184,7 +166,7 @@
         let height = parseFloat(document.getElementById('height').value);
         let age = parseFloat(document.getElementById('age').value);
         if (!weight || !height || !age) {
-            alert("Заполните вес, рост и возраст");
+            alert("Заполните вес, рост и возраст в разделе «Мои параметры»");
             return;
         }
         let calories = getTargetCalories(weight, height, age, currentGoal);
@@ -207,6 +189,7 @@
                 </div>
             </div>
         `).join('');
+        
         document.querySelectorAll('.menu-card').forEach(card => {
             card.onclick = () => {
                 document.querySelectorAll('.menu-card').forEach(c => c.classList.remove('selected'));
@@ -221,31 +204,13 @@
     function displaySelectedMenu(menu) {
         document.getElementById('selectedMenuDetails').innerHTML = `
             <div class="meal-detail">
-                <div class="meal-item"><h5>🌅 Завтрак</h5><p>${menu.meals.breakfast}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.meals.breakfast.split('+')[0])}" target="_blank">Рецепт →</a></div>
-                <div class="meal-item"><h5>☀️ Обед</h5><p>${menu.meals.lunch}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.meals.lunch.split('+')[0])}" target="_blank">Рецепт →</a></div>
-                <div class="meal-item"><h5>🌙 Ужин</h5><p>${menu.meals.dinner}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.meals.dinner.split('+')[0])}" target="_blank">Рецепт →</a></div>
-                <div class="meal-item"><h5>🍎 Перекус</h5><p>${menu.meals.snack}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.meals.snack.split(',')[0])}" target="_blank">Рецепт →</a></div>
+                <div class="meal-item"><h5>🌅 Завтрак</h5><p>${menu.meals.breakfast}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.meals.breakfast.split('+')[0])}" target="_blank">Найти рецепт →</a></div>
+                <div class="meal-item"><h5>☀️ Обед</h5><p>${menu.meals.lunch}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.meals.lunch.split('+')[0])}" target="_blank">Найти рецепт →</a></div>
+                <div class="meal-item"><h5>🌙 Ужин</h5><p>${menu.meals.dinner}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.meals.dinner.split('+')[0])}" target="_blank">Найти рецепт →</a></div>
+                <div class="meal-item"><h5>🍎 Перекус</h5><p>${menu.meals.snack}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.meals.snack.split(',')[0])}" target="_blank">Найти рецепт →</a></div>
             </div>
         `;
         document.getElementById('selectedMenuBlock').style.display = 'block';
-    }
-
-    async function saveMenuToCookbook() {
-        if (!currentUser) { alert("Войдите в аккаунт на главной странице"); return; }
-        if (!selectedMenu) { alert("Сначала выберите меню"); return; }
-        try {
-            const userRef = doc(db, "users", currentUser.uid);
-            const userSnap = await getDoc(userRef);
-            const saved = userSnap.exists() ? (userSnap.data().savedMenus || []) : [];
-            if (saved.some(m => m.id === selectedMenu.id)) { alert("Меню уже сохранено"); return; }
-            await updateDoc(userRef, { savedMenus: arrayUnion({ ...selectedMenu, savedAt: new Date().toISOString() }) });
-            alert("Меню сохранено в кулинарную книгу!");
-        } catch (e) {
-            if (e.code === 'not-found') {
-                await setDoc(doc(db, "users", currentUser.uid), { savedMenus: [{ ...selectedMenu, savedAt: new Date().toISOString() }] });
-                alert("Меню сохранено!");
-            } else { console.error(e); alert("Ошибка сохранения"); }
-        }
     }
 
     function saveParams() {
@@ -263,7 +228,7 @@
     function renderHistory() {
         let history = JSON.parse(localStorage.getItem('user_measurements') || '[]');
         let container = document.getElementById('historyTable');
-        if (history.length === 0) { container.innerHTML = "<p>Нет замеров</p>"; return; }
+        if (history.length === 0) { container.innerHTML = "<p>Нет сохранённых замеров</p>"; return; }
         let html = '<table><thead><tr><th>Дата</th><th>Вес</th><th>Рост</th><th>Возраст</th><th>Цель</th></tr></thead><tbody>';
         history.slice().reverse().forEach(h => {
             html += `<tr><td>${new Date(h.date).toLocaleDateString()}</td><td>${h.weight || "-"} кг</td><td>${h.height || "-"} см</td><td>${h.age || "-"}</td><td>${h.goal === "loss" ? "похудение" : (h.goal === "gain" ? "набор" : "поддержание")}</td></tr>`;
@@ -272,10 +237,19 @@
         container.innerHTML = html;
     }
 
+    function saveMenuToLocal() {
+        if (!selectedMenu) { alert("Сначала выберите меню"); return; }
+        let saved = JSON.parse(localStorage.getItem('saved_menus') || '[]');
+        if (saved.some(m => m.id === selectedMenu.id)) { alert("Это меню уже сохранено"); return; }
+        saved.push({ ...selectedMenu, savedAt: new Date().toISOString() });
+        localStorage.setItem('saved_menus', JSON.stringify(saved));
+        alert("Меню сохранено в вашу кулинарную книгу!");
+    }
+
     // ----- Привязка кнопок -----
     document.getElementById('saveParamsBtn').onclick = saveParams;
     document.getElementById('saveFerritinBtn').onclick = () => renderMenus();
-    document.getElementById('saveMenuBtn').onclick = saveMenuToCookbook;
+    document.getElementById('saveMenuBtn').onclick = saveMenuToLocal;
     document.getElementById('notifyBtn').onclick = () => {
         if (Notification.permission !== 'granted') Notification.requestPermission().then(p => { if (p === 'granted') alert("Уведомления включены"); });
         else alert("Уведомления уже разрешены");
@@ -289,21 +263,14 @@
         };
     });
 
-    onAuthStateChanged(auth, (user) => {
-        currentUser = user;
-        if (user) {
-            document.getElementById('authBlock').style.display = 'none';
-            document.getElementById('dashboardContent').style.display = 'block';
-            renderHistory();
-            // Попробуем отрисовать меню, если параметры есть
-            if (document.getElementById('weight').value && document.getElementById('height').value && document.getElementById('age').value) {
-                renderMenus();
-            }
-        } else {
-            document.getElementById('authBlock').innerHTML = '<p>🔐 Пожалуйста, <a href="index.html" style="color:#1a1a2e;">войдите или зарегистрируйтесь</a> на главной странице</p>';
-            document.getElementById('dashboardContent').style.display = 'none';
-        }
-    });
+    // ---------- УПРОЩЁННАЯ ПРОВЕРКА ВХОДА (без Firebase) ----------
+    // Для демонстрации просто показываем контент
+    document.getElementById('authBlock').style.display = 'none';
+    document.getElementById('dashboardContent').style.display = 'block';
+    renderHistory();
+    if (document.getElementById('weight').value && document.getElementById('height').value && document.getElementById('age').value) {
+        renderMenus();
+    }
 </script>
 </body>
 </html>
