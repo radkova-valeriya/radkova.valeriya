@@ -15,14 +15,14 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; margin: 20px 0; }
         .field { background: #faf8f5; padding: 16px; border-radius: 20px; text-align: center; }
         .field label { display: block; font-size: 0.8rem; color: #999; margin-bottom: 8px; }
-        .field input { width: 100%; padding: 12px; border: 1px solid #e0d6c8; border-radius: 40px; text-align: center; font-size: 1rem; }
+        .field input { width: 100%; padding: 12px; border: 1px solid #e0d6c8; border-radius: 40px; text-align: center; font-size: 1rem; font-family: 'Inter', sans-serif; }
         .goal-group { display: flex; gap: 12px; flex-wrap: wrap; margin: 20px 0; }
-        .goal-btn { background: #f0ede8; border: none; padding: 10px 24px; border-radius: 40px; cursor: pointer; font-family: 'Inter', sans-serif; }
+        .goal-btn { background: #f0ede8; border: none; padding: 10px 24px; border-radius: 40px; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; }
         .goal-btn.active { background: #1a1a2e; color: white; }
-        .btn { background: #1a1a2e; color: white; padding: 12px 28px; border: none; border-radius: 40px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; margin-top: 10px; }
-        .btn-outline { background: transparent; border: 1.5px solid #1a1a2e; color: #1a1a2e; padding: 10px 24px; border-radius: 40px; cursor: pointer; }
-        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin: 24px 0; }
-        .menu-card { background: #faf8f5; border-radius: 24px; padding: 20px; cursor: pointer; border: 2px solid transparent; }
+        .btn { background: #1a1a2e; color: white; padding: 12px 28px; border: none; border-radius: 40px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; font-family: 'Inter', sans-serif; font-size: 0.95rem; margin-top: 10px; }
+        .btn-outline { background: transparent; border: 1.5px solid #1a1a2e; color: #1a1a2e; padding: 10px 24px; border-radius: 40px; cursor: pointer; font-family: 'Inter', sans-serif; }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin: 24px 0; }
+        .menu-card { background: #faf8f5; border-radius: 24px; padding: 20px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; }
         .menu-card.selected { border-color: #4a7c59; background: #f0f5f0; }
         .menu-card h4 { margin-bottom: 8px; }
         .menu-desc { font-size: 0.8rem; color: #c4a87c; margin-bottom: 16px; }
@@ -157,6 +157,7 @@
     function findNearestRange(cal) { let ranges = [1200,1350,1450,1550,1650,1750,1850,1950]; return ranges.reduce((a,b) => Math.abs(b-cal) < Math.abs(a-cal) ? b : a); }
     function getRangeName(cal) { let names = {1200:"1200-1300",1350:"1300-1400",1450:"1400-1500",1550:"1500-1600",1650:"1600-1700",1750:"1700-1800",1850:"1800-1900",1950:"1900-2000"}; return names[cal] || "1500-1600"; }
 
+    // Отображение калорий
     function updateCalorieDisplay() {
         let w = parseFloat(document.getElementById('weight').value);
         let h = parseFloat(document.getElementById('height').value);
@@ -165,13 +166,20 @@
             let cal = getTargetCalories(w,h,a,currentGoal);
             document.getElementById('calorieDisplay').innerHTML = `Ваша норма: ${cal} ккал/день (${currentGoal === "loss" ? "дефицит" : (currentGoal === "gain" ? "профицит" : "поддержание")})`;
             document.getElementById('calorieDisplay').classList.remove('hidden');
+        } else {
+            document.getElementById('calorieDisplay').classList.add('hidden');
         }
     }
 
+    // Отображение цикла
     function updateCycleDisplay() {
         let lastPeriod = document.getElementById('lastPeriod').value;
         let cycleLen = parseInt(document.getElementById('cycleLength').value) || 28;
-        if (!lastPeriod) { document.getElementById('cycleDisplay').classList.add('hidden'); return; }
+        if (!lastPeriod) { 
+            document.getElementById('cycleDisplay').innerHTML = "📅 Заполните дату начала последних месячных";
+            document.getElementById('cycleDisplay').classList.remove('hidden');
+            return; 
+        }
         let start = new Date(lastPeriod);
         let today = new Date();
         let daysDiff = Math.floor((today - start) / (1000*3600*24));
@@ -186,88 +194,207 @@
         document.getElementById('cycleDisplay').classList.remove('hidden');
     }
 
-    function renderMenus() {
-        let w = parseFloat(document.getElementById('weight').value);
-        let h = parseFloat(document.getElementById('height').value);
-        let a = parseFloat(document.getElementById('age').value);
-        if (!w || !h || !a) { alert("Заполните вес, рост и возраст"); return; }
-        let cal = getTargetCalories(w,h,a,currentGoal);
-        let range = findNearestRange(cal);
-        let ferVal = document.getElementById('ferritin').value ? parseFloat(document.getElementById('ferritin').value) : null;
-        let ferStatus = getFerritinStatus(ferVal);
-        let menus = (ferStatus === "low" && MENUS.low[range]) ? MENUS.low[range] : MENUS.normal[1550];
-        let rangeName = getRangeName(range);
-        document.getElementById('menuInfo').innerHTML = `${rangeName} ккал · ферритин: ${ferStatus === "low" ? "низкий" : "норма"} · цель: ${currentGoal === "loss" ? "похудение" : (currentGoal === "gain" ? "набор" : "поддержание")}`;
-        let container = document.getElementById('menuOptions');
-        container.innerHTML = menus.map((m,idx) => `<div class="menu-card" data-idx="${idx}"><h4>🍽️ ${m.title}</h4><div class="menu-desc">${m.desc}</div><div class="meal-preview"><p>🌅 ${m.breakfast.substring(0,50)}…</p><p>☀️ ${m.lunch.substring(0,50)}…</p><p>🌙 ${m.dinner.substring(0,50)}…</p></div></div>`).join('');
-        window.currentMenus = menus;
-        document.querySelectorAll('.menu-card').forEach(card => { card.onclick = () => { document.querySelectorAll('.menu-card').forEach(c=>c.classList.remove('selected')); card.classList.add('selected'); let idx = parseInt(card.dataset.idx); selectedMenu = window.currentMenus[idx]; displaySelectedMenu(selectedMenu); }; });
-    }
-
-    function displaySelectedMenu(menu) {
-        document.getElementById('selectedMenuDetails').innerHTML = `<div class="meal-detail"><div class="meal-item"><h5>🌅 Завтрак</h5><p>${menu.breakfast}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.breakfast.split('+')[0])}" target="_blank">Найти рецепт →</a></div><div class="meal-item"><h5>☀️ Обед</h5><p>${menu.lunch}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.lunch.split('+')[0])}" target="_blank">Найти рецепт →</a></div><div class="meal-item"><h5>🌙 Ужин</h5><p>${menu.dinner}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.dinner.split('+')[0])}" target="_blank">Найти рецепт →</a></div><div class="meal-item"><h5>🍎 Перекус</h5><p>${menu.snack}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.snack.split(',')[0])}" target="_blank">Найти рецепт →</a></div></div>`;
-        document.getElementById('selectedMenuBlock').classList.remove('hidden');
-    }
-
+    // Сохранение параметров (вес, рост, возраст, цель)
     function saveParams() {
         let w = document.getElementById('weight').value;
         let h = document.getElementById('height').value;
         let a = document.getElementById('age').value;
-        let measurements = JSON.parse(localStorage.getItem('user_measurements') || '[]');
-        measurements.push({ date: new Date().toISOString(), weight: w, height: h, age: a, goal: currentGoal });
-        localStorage.setItem('user_measurements', JSON.stringify(measurements));
+        
+        if (!w || !h || !a) {
+            alert("Заполните все поля");
+            return;
+        }
+        
+        // Сохраняем в localStorage
+        let params = {
+            weight: w,
+            height: h,
+            age: a,
+            goal: currentGoal,
+            date: new Date().toISOString()
+        };
+        localStorage.setItem('user_params', JSON.stringify(params));
+        
+        // Добавляем в историю
+        let history = JSON.parse(localStorage.getItem('user_measurements') || '[]');
+        history.push({ date: new Date().toISOString(), weight: w, height: h, age: a, goal: currentGoal });
+        localStorage.setItem('user_measurements', JSON.stringify(history));
+        
         renderHistory();
         updateCalorieDisplay();
         renderMenus();
         alert("Параметры сохранены");
     }
 
+    // Сохранение данных цикла
     function saveCycleData() {
         let lastPeriod = document.getElementById('lastPeriod').value;
         let cycleLength = document.getElementById('cycleLength').value;
-        if (lastPeriod) localStorage.setItem('user_last_period', lastPeriod);
+        
+        if (!lastPeriod) {
+            alert("Выберите дату начала последних месячных");
+            return;
+        }
+        
+        localStorage.setItem('user_last_period', lastPeriod);
         localStorage.setItem('user_cycle_length', cycleLength);
         updateCycleDisplay();
         alert("Данные цикла сохранены");
     }
 
-    function renderHistory() {
-        let history = JSON.parse(localStorage.getItem('user_measurements') || '[]');
-        let container = document.getElementById('historyTable');
-        if (history.length === 0) { container.innerHTML = "<p>Нет сохранённых замеров</p>"; return; }
-        let html = '<tr><thead><tr><th>Дата</th><th>Вес</th><th>Рост</th><th>Возраст</th><th>Цель</th></tr></thead><tbody>';
-        history.slice().reverse().forEach(h => { html += `<tr><td>${new Date(h.date).toLocaleDateString()}</td><td>${h.weight || "-"} кг</td><td>${h.height || "-"} см</td><td>${h.age || "-"}</td><td>${h.goal === "loss" ? "похудение" : (h.goal === "gain" ? "набор" : "поддержание")}</td></tr>`; });
-        html += '</tbody></table>';
-        container.innerHTML = html;
-    }
-
-    function saveMenuToLocal() {
-        if (!selectedMenu) { alert("Сначала выберите меню"); return; }
-        let saved = JSON.parse(localStorage.getItem('saved_menus') || '[]');
-        if (saved.some(m => m.id === selectedMenu.id)) { alert("Меню уже сохранено"); return; }
-        saved.push({ ...selectedMenu, savedAt: new Date().toISOString() });
-        localStorage.setItem('saved_menus', JSON.stringify(saved));
-        alert("Меню сохранено в кулинарную книгу!");
-    }
-
-    // Инициализация
-    function init() {
-        document.getElementById('saveParamsBtn').onclick = saveParams;
-        document.getElementById('saveFerritinBtn').onclick = () => renderMenus();
-        document.getElementById('saveCycleBtn').onclick = saveCycleData;
-        document.getElementById('saveMenuBtn').onclick = saveMenuToLocal;
-        document.getElementById('notifyBtn').onclick = () => { if (Notification.permission !== 'granted') Notification.requestPermission().then(p => { if (p === 'granted') alert("Уведомления включены"); }); else alert("Уведомления уже разрешены"); };
-        document.querySelectorAll('.goal-btn').forEach(btn => { btn.onclick = () => { document.querySelectorAll('.goal-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); currentGoal = btn.dataset.goal; updateCalorieDisplay(); renderMenus(); }; });
-        // Загрузка сохранённых данных
+    // Загрузка сохранённых данных
+    function loadSavedData() {
+        let savedParams = localStorage.getItem('user_params');
+        if (savedParams) {
+            let params = JSON.parse(savedParams);
+            document.getElementById('weight').value = params.weight;
+            document.getElementById('height').value = params.height;
+            document.getElementById('age').value = params.age;
+            currentGoal = params.goal;
+            document.querySelectorAll('.goal-btn').forEach(btn => {
+                if (btn.dataset.goal === currentGoal) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            updateCalorieDisplay();
+        }
+        
         let savedLastPeriod = localStorage.getItem('user_last_period');
         let savedCycleLength = localStorage.getItem('user_cycle_length');
         if (savedLastPeriod) document.getElementById('lastPeriod').value = savedLastPeriod;
         if (savedCycleLength) document.getElementById('cycleLength').value = savedCycleLength;
-        renderHistory();
-        updateCalorieDisplay();
         updateCycleDisplay();
-        if (document.getElementById('weight').value && document.getElementById('height').value && document.getElementById('age').value) renderMenus();
     }
+
+    // Рендер меню
+    function renderMenus() {
+        let w = parseFloat(document.getElementById('weight').value);
+        let h = parseFloat(document.getElementById('height').value);
+        let a = parseFloat(document.getElementById('age').value);
+        
+        if (!w || !h || !a) {
+            document.getElementById('menuInfo').innerHTML = "⚠️ Сначала заполните параметры";
+            return;
+        }
+        
+        let cal = getTargetCalories(w, h, a, currentGoal);
+        let range = findNearestRange(cal);
+        let ferVal = document.getElementById('ferritin').value ? parseFloat(document.getElementById('ferritin').value) : null;
+        let ferStatus = getFerritinStatus(ferVal);
+        
+        let menus = (ferStatus === "low" && MENUS.low[range]) ? MENUS.low[range] : MENUS.normal[1550];
+        let rangeName = getRangeName(range);
+        
+        document.getElementById('menuInfo').innerHTML = `${rangeName} ккал · ферритин: ${ferStatus === "low" ? "низкий" : "норма"} · цель: ${currentGoal === "loss" ? "похудение" : (currentGoal === "gain" ? "набор" : "поддержание")}`;
+        
+        let container = document.getElementById('menuOptions');
+        container.innerHTML = menus.map((m, idx) => `
+            <div class="menu-card" data-idx="${idx}">
+                <h4>🍽️ ${m.title}</h4>
+                <div class="menu-desc">${m.desc}</div>
+                <div class="meal-preview">
+                    <p>🌅 ${m.breakfast.substring(0, 50)}…</p>
+                    <p>☀️ ${m.lunch.substring(0, 50)}…</p>
+                    <p>🌙 ${m.dinner.substring(0, 50)}…</p>
+                </div>
+            </div>
+        `).join('');
+        
+        window.currentMenus = menus;
+        
+        document.querySelectorAll('.menu-card').forEach(card => {
+            card.onclick = () => {
+                document.querySelectorAll('.menu-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                let idx = parseInt(card.dataset.idx);
+                selectedMenu = window.currentMenus[idx];
+                displaySelectedMenu(selectedMenu);
+            };
+        });
+    }
+
+    function displaySelectedMenu(menu) {
+        document.getElementById('selectedMenuDetails').innerHTML = `
+            <div class="meal-detail">
+                <div class="meal-item"><h5>🌅 Завтрак</h5><p>${menu.breakfast}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.breakfast.split('+')[0])}" target="_blank">Найти рецепт →</a></div>
+                <div class="meal-item"><h5>☀️ Обед</h5><p>${menu.lunch}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.lunch.split('+')[0])}" target="_blank">Найти рецепт →</a></div>
+                <div class="meal-item"><h5>🌙 Ужин</h5><p>${menu.dinner}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.dinner.split('+')[0])}" target="_blank">Найти рецепт →</a></div>
+                <div class="meal-item"><h5>🍎 Перекус</h5><p>${menu.snack}</p><a class="recipe-link" href="https://eda.ru/recepty?q=${encodeURIComponent(menu.snack.split(',')[0])}" target="_blank">Найти рецепт →</a></div>
+            </div>
+        `;
+        document.getElementById('selectedMenuBlock').classList.remove('hidden');
+    }
+
+    // Сохранение меню
+    function saveMenuToLocal() {
+        if (!selectedMenu) {
+            alert("Сначала выберите меню");
+            return;
+        }
+        let saved = JSON.parse(localStorage.getItem('saved_menus') || '[]');
+        if (saved.some(m => m.id === selectedMenu.id)) {
+            alert("Это меню уже сохранено");
+            return;
+        }
+        saved.push({ ...selectedMenu, savedAt: new Date().toISOString() });
+        localStorage.setItem('saved_menus', JSON.stringify(saved));
+        alert("Меню сохранено в вашу кулинарную книгу!");
+    }
+
+    // История замеров
+    function renderHistory() {
+        let history = JSON.parse(localStorage.getItem('user_measurements') || '[]');
+        let container = document.getElementById('historyTable');
+        if (history.length === 0) {
+            container.innerHTML = "<p>Нет сохранённых замеров</p>";
+            return;
+        }
+        let html = '<table><thead><tr><th>Дата</th><th>Вес</th><th>Рост</th><th>Возраст</th><th>Цель</th></tr></thead><tbody>';
+        history.slice().reverse().forEach(h => {
+            html += `<tr><td>${new Date(h.date).toLocaleDateString()}</td><td>${h.weight || "-"} кг</td><td>${h.height || "-"} см</td><td>${h.age || "-"}</td><td>${h.goal === "loss" ? "похудение" : (h.goal === "gain" ? "набор" : "поддержание")}</td></tr>`;
+        });
+        html += '</tbody></table>';
+        container.innerHTML = html;
+    }
+
+    // Инициализация
+    function init() {
+        // Кнопки
+        document.getElementById('saveParamsBtn').onclick = saveParams;
+        document.getElementById('saveFerritinBtn').onclick = () => renderMenus();
+        document.getElementById('saveCycleBtn').onclick = saveCycleData;
+        document.getElementById('saveMenuBtn').onclick = saveMenuToLocal;
+        document.getElementById('notifyBtn').onclick = () => {
+            if (Notification.permission !== 'granted') {
+                Notification.requestPermission().then(p => { if (p === 'granted') alert("Уведомления включены"); });
+            } else {
+                alert("Уведомления уже разрешены");
+            }
+        };
+        
+        // Кнопки цели
+        document.querySelectorAll('.goal-btn').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.goal-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentGoal = btn.dataset.goal;
+                updateCalorieDisplay();
+                renderMenus();
+            };
+        });
+        
+        // Загружаем сохранённые данные
+        loadSavedData();
+        renderHistory();
+        
+        // Если есть параметры, показываем меню
+        if (document.getElementById('weight').value && document.getElementById('height').value && document.getElementById('age').value) {
+            renderMenus();
+        }
+    }
+    
     init();
 </script>
 </body>
